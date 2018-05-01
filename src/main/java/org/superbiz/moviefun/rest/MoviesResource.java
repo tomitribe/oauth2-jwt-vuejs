@@ -16,15 +16,11 @@
  */
 package org.superbiz.moviefun.rest;
 
-import org.eclipse.microprofile.jwt.Claim;
-import org.eclipse.microprofile.jwt.ClaimValue;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.superbiz.moviefun.Movie;
 import org.superbiz.moviefun.MoviesBean;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -48,20 +44,6 @@ public class MoviesResource {
     @EJB
     private MoviesBean service;
 
-    @Inject
-    @Claim("username")
-    private ClaimValue<String> rawToken;
-
-    @Inject
-    @Claim("iss")
-    private ClaimValue<String> issuer;
-
-    @Inject
-    @Claim("jti")
-    private ClaimValue<String> jti;
-
-    @Inject
-    private JsonWebToken jwtPrincipal;
 
     @Context
     private SecurityContext securityContext;
