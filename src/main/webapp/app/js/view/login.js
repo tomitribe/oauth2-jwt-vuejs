@@ -29,7 +29,7 @@
             className: 'ux-login',
             filterOption: 'title',
             events: {
-                'submit .form-login': function (evt) {
+                /*'submit .form-login': function (evt) {
                     evt.preventDefault();
                     var me = this,
                         creds = $(evt.target).serialize(),
@@ -45,7 +45,7 @@
                             AlertView.show('Failed', e['responseJSON']['error_description'], 'danger');
                         }
                     );
-                }
+                }*/
             },
             render: function () {
                 var me = this;
