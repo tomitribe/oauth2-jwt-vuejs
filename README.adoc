@@ -5,5 +5,5 @@ Microprofile JWT example based on the Movie Fun app
 == Running
 
 ----
-mvn clean package tomee:run
+mvn clean package DskipTests tomee:run
 ----

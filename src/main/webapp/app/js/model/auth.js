@@ -24,7 +24,7 @@
         var AuthModel = Backbone.Model.extend({
             urlRoot: window.ux.ROOT_URL + 'rest/token',
             defaults: {
-                auth: false,
+                auth: true,
                 username: '',
                 email: '',
                 groups: '',
