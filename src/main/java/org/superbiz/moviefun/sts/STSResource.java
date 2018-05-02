@@ -119,7 +119,7 @@ public class STSResource {
                         null, // refresh not supported
                         StringUtils.join(scopes, ' '));
 
-                return Response.ok().entity(response).cookie(response.toCookie()).build();
+                return Response.ok().entity(response).build();
 
             } catch (final Exception e) {
                 return Response.status(Response.Status.BAD_REQUEST).entity(new TokenErrorResponse(
