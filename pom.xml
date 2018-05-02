@@ -28,7 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tomee.version>8.0.0-SNAPSHOT</tomee.version>
+        <version.tomee>8.0.0-SNAPSHOT</version.tomee>
         <version.shrinkwrap.resolver>3.1.3</version.shrinkwrap.resolver>
         <mp-jwt.version>1.0</mp-jwt.version>
     </properties>
@@ -63,9 +63,13 @@
             <plugin>
                 <groupId>org.apache.tomee.maven</groupId>
                 <artifactId>tomee-maven-plugin</artifactId>
-                <version>${tomee.version}</version>
+                <version>7.0.4</version>
                 <configuration>
                     <tomeeClassifier>plus</tomeeClassifier>
+                    <tomeeVersion>${version.tomee}</tomeeVersion>
+                    <tomeeHttpPort>9999</tomeeHttpPort>
+                    <tomeeAjpPort>8999</tomeeAjpPort>
+                    <tomeeShutdownPort>9995</tomeeShutdownPort>
                     <args>-Xmx512m -XX:PermSize=256m</args>
                     <config>${project.basedir}/src/main/tomee/</config>
                     <synchronization>
@@ -146,14 +150,14 @@
         <dependency>
             <groupId>org.apache.tomee</groupId>
             <artifactId>openejb-cxf-rs</artifactId>
-            <version>${tomee.version}</version>
+            <version>${version.tomee}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.tomee</groupId>
             <artifactId>openejb-core</artifactId>
-            <version>${tomee.version}</version>
+            <version>${version.tomee}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -175,7 +179,7 @@
         <dependency>
             <groupId>org.apache.tomee</groupId>
             <artifactId>ziplock</artifactId>
-            <version>${tomee.version}</version>
+            <version>${version.tomee}</version>
             <scope>test</scope>
         </dependency>
 
@@ -289,7 +293,7 @@
                 <dependency>
                     <groupId>org.apache.tomee</groupId>
                     <artifactId>arquillian-tomee-embedded</artifactId>
-                    <version>${tomee.version}</version>
+                    <version>${version.tomee}</version>
                     <scope>test</scope>
                     <exclusions>
                         <exclusion>
@@ -305,7 +309,7 @@
                 <dependency>
                     <groupId>org.apache.tomee</groupId>
                     <artifactId>tomee-embedded</artifactId>
-                    <version>${tomee.version}</version>
+                    <version>${version.tomee}</version>
                     <scope>test</scope>
                     <exclusions>
                         <exclusion>

@@ -1,17 +1,122 @@
 <article class="text-center">
     <div class="row">
         <div class="col-md-12">
-            <form class="form-login">
-                <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+            <form class="form-login" onsubmit="loginSubmit(event)">
                 <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label for="inputUsername" class="sr-only">Username</label>
-                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username"
+                       required autofocus>
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
+                       required>
                 <input type="password" type="text" name="grant_type" value="password" hidden required>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                 <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
             </form>
         </div>
+        <script type="text/javascript">
+            let fetchToken = function (username, password, type = 'basic', grant_type = 'password') {
+                return new Promise((res, rej) => {
+                    let URI = {
+                                basic: '/tag/api/token',
+                                oauth2: '/oauth2/token'
+                            },
+                            grantTypes = ['password', ,],
+                            gtIndex = grantTypes.indexOf(grant_type),
+                            params = {
+                                password,
+                                username,
+                                type
+                            },
+                            path = URI[type];
+
+                    if (!path) return rej('invalid Token Type');
+
+                    if (type === 'oauth2') {
+                        switch (grant_type) {
+                            case 'password':
+                                params = {
+                                    password,
+                                    username,
+                                    grant_type
+                                };
+                                break;
+                            case 'client_credentials':
+                                params = {
+                                    client_id: username,
+                                    client_secret: password,
+                                    grant_type
+                                };
+                                break;
+                            case 'refresh_token':
+                                path = URI['basic'];
+                                params = {
+                                    refresh_token: username,
+                                    type,
+                                    grant_type
+                                };
+                                break;
+                            default:
+                                return rej('invalid Grant Type');
+                        }
+                    }
+                    const esc = encodeURIComponent, body = Object.keys(params)
+                            .map(k => esc(k) + '=' + esc(params[k]))
+                            .join('&');
+
+                    let host = location.protocol + '//' + location.host;
+
+                    fetch(`${host}${path}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body
+                    })
+                            .then(response => response.text())
+                            .then(text => {
+                                try {
+                                    res(JSON.parse(text));
+                                } catch (err) {
+                                    rej(err, text);
+                                }
+                            }).catch(rej);
+                })
+            }, loginSubmit = function (event) {
+                event.preventDefault();
+                const form = event.target;
+
+                let redir = document.referrer;
+                let override = getParameterByName('ref');
+
+                if (override !== null || "" !== override || null == redir || undefined === redir) {
+                    redir = override;
+                }
+
+                fetchToken(form.username.value, form.password.value, 'oauth2').then(promise => {
+                    console.debug();
+                    //let json64 = btoa(JSON.stringify(promise.access));
+                    let json64 = btoa(JSON.stringify(promise.access_token));
+                    document.cookie = 'pxc-scs-cookie=' + promise.access_token + "; path=/;";
+                    document.location.href = redir;
+
+                });
+                //examples:
+                /*
+                fetchToken('admin', 'admin').then(console.log)
+                fetchToken('admin', 'admin', 'oauth2').then(console.log)
+                fetchToken('client', 'clientsecret', 'oauth2', 'client_credentials').then(console.log)
+                */
+            }, getParameterByName = function (name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                        results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+
+        </script>
     </div>
 </article>
