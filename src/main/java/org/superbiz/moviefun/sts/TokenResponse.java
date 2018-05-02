@@ -16,13 +16,8 @@
  */
 package org.superbiz.moviefun.sts;
 
-import com.nimbusds.jose.util.Base64;
-import org.apache.johnzon.mapper.JohnzonIgnore;
 import org.apache.johnzon.mapper.JohnzonProperty;
-import org.apache.johnzon.mapper.Mapper;
-import org.apache.johnzon.mapper.MapperBuilder;
 
-import javax.ws.rs.core.NewCookie;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
@@ -124,11 +119,5 @@ public class TokenResponse implements Serializable {
 
     public void setScope(String scope) {
         this.scope = scope;
-    }
-
-    @JohnzonIgnore
-    public NewCookie toCookie() {
-        final Mapper mapper = new MapperBuilder().build();
-        return new NewCookie("authorization", Base64.encode( mapper.writeObjectAsString(this)).toString());
     }
 }
