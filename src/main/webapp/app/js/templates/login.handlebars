@@ -76,6 +76,7 @@
                             .then(response => response.text())
                             .then(text => {
                                 try {
+                                    text = atob(text);
                                     res(JSON.parse(text));
                                 } catch (err) {
                                     rej(err, text);
