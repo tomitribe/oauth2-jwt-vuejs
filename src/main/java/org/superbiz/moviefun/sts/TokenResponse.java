@@ -16,6 +16,7 @@
  */
 package org.superbiz.moviefun.sts;
 
+import com.nimbusds.jose.util.Base64;
 import org.apache.johnzon.mapper.JohnzonIgnore;
 import org.apache.johnzon.mapper.JohnzonProperty;
 import org.apache.johnzon.mapper.Mapper;
@@ -128,6 +129,6 @@ public class TokenResponse implements Serializable {
     @JohnzonIgnore
     public NewCookie toCookie() {
         final Mapper mapper = new MapperBuilder().build();
-        return new NewCookie("authorization", mapper.writeObjectAsString(this));
+        return new NewCookie("authorization", Base64.encode( mapper.writeObjectAsString(this)).toString());
     }
 }

@@ -76,7 +76,7 @@
                             .then(response => response.text())
                             .then(text => {
                                 try {
-                                    text = atob(text);
+                                    //text = atob(text);
                                     res(JSON.parse(text));
                                 } catch (err) {
                                     rej(err, text);
@@ -97,9 +97,9 @@
                 fetchToken(form.username.value, form.password.value, 'oauth2').then(promise => {
                     console.debug();
                     //let json64 = btoa(JSON.stringify(promise.access));
-                    let json64 = btoa(JSON.stringify(promise.access_token));
-                    document.cookie = 'pxc-scs-cookie=' + promise.access_token + "; path=/;";
-                    document.location.href = redir;
+                    let json64 = btoa(JSON.stringify(promise));
+                    document.cookie = 'authorization=' + json64 + "; path=/;";
+                    document.location.href = 'http://andy-xps:8080/moviefun/main';//redir;
 
                 });
                 //examples:
@@ -120,4 +120,6 @@
 
         </script>
     </div>
+
+    <a href="http://andy-xps:8080/moviefun/main">http://andy-xps:8080/moviefun/main</a>
 </article>
