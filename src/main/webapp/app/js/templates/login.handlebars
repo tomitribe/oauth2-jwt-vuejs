@@ -99,7 +99,8 @@
                     //let json64 = btoa(JSON.stringify(promise.access));
                     let json64 = btoa(JSON.stringify(promise));
                     document.cookie = 'authorization=' + json64 + "; path=/;";
-                    document.location.href = 'http://andy-xps:8080/moviefun/main';//redir;
+
+                    document.location.href = getAppUrl();//TODO - Use redir;
 
                 });
                 //examples:
@@ -116,10 +117,18 @@
                 if (!results) return null;
                 if (!results[2]) return '';
                 return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }, getAppUrl = function (){
+                const protocol = location.protocol;
+                const slashes = protocol.concat("//");
+                const host = slashes.concat(window.location.hostname);
+                const colon = host.concat(":");
+                const url = colon.concat(window.location.port);
+
+                return url + '/moviefun/main';
             }
 
         </script>
     </div>
 
-    <a href="http://andy-xps:8080/moviefun/main">http://andy-xps:8080/moviefun/main</a>
+    <a href="main">Simple href link to App</a>
 </article>

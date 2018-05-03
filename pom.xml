@@ -21,10 +21,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.superbiz</groupId>
-    <artifactId>mp-jwt-moviefun</artifactId>
+    <artifactId>login-moviefun</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>REST MP-JWT</name>
+    <name>Login :: JWT</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
