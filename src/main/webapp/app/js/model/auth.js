@@ -66,6 +66,9 @@
             },
             logout: function() {
                 var me = this;
+
+                document.cookie = "authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
                 return new Promise( function (res, rej) {
                     me.clear();
                     me.id = null;
