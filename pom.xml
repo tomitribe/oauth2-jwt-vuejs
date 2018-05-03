@@ -70,6 +70,8 @@
                     <tomeeHttpPort>9999</tomeeHttpPort>
                     <tomeeAjpPort>8999</tomeeAjpPort>
                     <tomeeShutdownPort>9995</tomeeShutdownPort>
+                    <reloadOnUpdate>true</reloadOnUpdate>
+                    <forceReloadable>true</forceReloadable>
                     <args>-Xmx512m -XX:PermSize=256m</args>
                     <config>${project.basedir}/src/main/tomee/</config>
                     <synchronization>
