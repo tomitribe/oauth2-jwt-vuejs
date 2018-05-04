@@ -30,11 +30,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
 @Path("movies")
@@ -44,9 +40,6 @@ public class MoviesResource {
     @EJB
     private MoviesBean service;
 
-
-    @Context
-    private SecurityContext securityContext;
 
     @GET
     @Path("{id}")
@@ -63,9 +56,6 @@ public class MoviesResource {
     @POST
     @Consumes("application/json")
     public Movie addMovie(Movie movie) {
-        if (!securityContext.isUserInRole("create")) {
-            throw new WebApplicationException("Bad permission.", Response.Status.FORBIDDEN);
-        }
         service.addMovie(movie);
         return movie;
     }
