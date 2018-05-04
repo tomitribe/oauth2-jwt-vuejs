@@ -1,7 +1,9 @@
 <article class="text-center">
     <div class="row">
         <div class="col-md-12">
-            <form class="form-login" onsubmit="loginSubmit(event)">
+            <!--form class="form-login" onsubmit="loginSubmit(event)"//-->
+            <form class="form-login" action="/oauth2/token" method="post">
+                <input type="hidden" name="ref" value="/movifun/main">
                 <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <label for="inputUsername" class="sr-only">Username</label>
                 <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username"
@@ -96,9 +98,13 @@
 
                 fetchToken(form.username.value, form.password.value, 'oauth2').then(promise => {
                     console.debug();
-                    //let json64 = btoa(JSON.stringify(promise.access));
-                    let json64 = btoa(JSON.stringify(promise));
-                    document.cookie = 'authorization=' + json64 + "; path=/;";
+                    //let json64 = btoa(JSON.stringify(promise.access_token));
+                    let rawString = JSON.stringify(promise);
+
+                    console.log("" + rawString);
+
+                    let json64 = btoa(rawString);
+                    document.cookie = 'authorization=' + promise.access_token + "; path=/;";
 
                     document.location.href = getAppUrl();//TODO - Use redir;
 
