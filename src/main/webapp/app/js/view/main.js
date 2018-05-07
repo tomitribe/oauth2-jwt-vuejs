@@ -20,7 +20,7 @@
     'use strict';
 
     var deps = ['app/js/templates', 'app/js/view/main-table-row', 'app/js/view/main-table-paginator',
-        'lib/underscore', 'app/js/tools/i18n', 'lib/backbone'];
+        'lib/underscore', 'app/js/tools/i18n', 'backbone'];
     define(deps, function (templates, TableRowView, paginator, underscore, i18n, Backbone) {
 
         var View = Backbone.View.extend({
@@ -37,7 +37,7 @@
                     var me = this;
                     var selected = $(me.$el.find('.ux-selected-filter').get(0));
                     var myLink = $(evt.target);
-                    me.filterOption = myLink.attr('href');
+                    me.filterOption = myLink.attr('data-option');
                     selected.html(i18n.get(me.filterOption, {}));
                 },
                 'click .ux-filter-action': function (evt) {
@@ -130,6 +130,9 @@
                     row.on('edit', function (data) {
                         me.trigger('edit', data);
                     });
+                    row.on('movie', function (data) {
+                        me.trigger('movie', data);
+                    });
                     tbody.append(row.render().$el);
                 });
             },
@@ -138,11 +141,11 @@
                 var me = this;
                 paginator.$el.detach();
                 me.loadDataLink.detach();
-                var table = $(me.$el.find('.table').get(0));
+                var uxAdditional = $(me.$el.find('.ux-additional').get(0));
                 if (count) {
-                    table.after(paginator.$el);
+                    uxAdditional.prepend(paginator.$el);
                 } else {
-                    table.after(me.loadDataLink);
+                    uxAdditional.prepend(me.loadDataLink);
                 }
             }
         });

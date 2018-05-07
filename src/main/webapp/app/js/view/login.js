@@ -19,7 +19,7 @@
 (function () {
     'use strict';
 
-    var deps = ['app/js/templates', 'lib/underscore', 'app/js/tools/i18n', 'lib/backbone', 'app/js/tools/alert.view'];
+    var deps = ['app/js/templates', 'lib/underscore', 'app/js/tools/i18n', 'backbone', 'app/js/tools/alert.view'];
     define(deps, function (templates, underscore, i18n, Backbone, AlertView) {
         var View = Backbone.View.extend({
             initialize: function(options){
@@ -29,12 +29,12 @@
             className: 'ux-login',
             filterOption: 'title',
             events: {
-                /*'submit .form-login': function (evt) {
+                'submit .form-login': function (evt) {
                     evt.preventDefault();
                     var me = this,
                         creds = $(evt.target).serialize(),
                         router = window.BackboneApp.getRouter();
-                    window.auth.login(creds).then(
+                    window.ux.auth.login(creds).then(
                         function () {
                             router.navigate('main/1', {
                                 trigger: true
@@ -42,10 +42,10 @@
                         }
                     ).catch(
                         function (e) {
-                            AlertView.show('Failed', e['responseJSON']['error_description'], 'danger');
+                            AlertView.show('Failed', e['responseJSON'] && e['responseJSON']['error_description'] || e, 'danger');
                         }
                     );
-                }*/
+                }
             },
             render: function () {
                 var me = this;

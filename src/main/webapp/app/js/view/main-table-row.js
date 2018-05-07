@@ -19,7 +19,7 @@
 (function () {
     'use strict';
 
-    var deps = ['app/js/templates', 'lib/backbone'];
+    var deps = ['app/js/templates', 'backbone'];
     define(deps, function (templates, Backbone) {
 
         var View = Backbone.View.extend({
@@ -41,6 +41,13 @@
                     me.trigger('edit', {
                         model: me.model
                     });
+                },
+                'click .ux-goto-movie': function (evt) {
+                    evt.preventDefault();
+                    var me = this;
+                    me.trigger('movie', {
+                        model: me.model
+                    });
                 }
             },
 
@@ -53,7 +60,8 @@
                         director: me.model.get('director'),
                         genre: me.model.get('genre'),
                         rating: me.model.get('rating'),
-                        year: me.model.get('year')
+                        year: me.model.get('year'),
+                        id: me.model.get('id')
                     }));
                     me.options.isRendered = true;
                 }

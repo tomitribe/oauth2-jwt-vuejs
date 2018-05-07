@@ -22,7 +22,7 @@ define(['lib/underscore', 'lib/handlebars', 'app/js/tools/log'], function (_, Ha
 
     var missing = Handlebars.compile('[!{{key}}!]');
     var messages = {
-        'application.name': 'Moviefun',
+        'application.name': 'MovieChat',
         'load.dada': 'Click here to load sample data',
         'movies': 'Movies',
         'title': 'Title',
@@ -34,6 +34,19 @@ define(['lib/underscore', 'lib/handlebars', 'app/js/tools/log'], function (_, Ha
         'movie': 'Movie',
         'close': 'Close',
         'save': 'Save',
+
+        "January": "January",
+        "February": "February",
+        "March": "March",
+        "April": "April",
+        "May": "May",
+        "June": "June",
+        "July": "July",
+        "August": "August",
+        "September": "September",
+        "October": "October",
+        "November": "November",
+        "December": "December",
 
         'dummy': ''
     };

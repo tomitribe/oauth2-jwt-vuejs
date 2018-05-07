@@ -19,19 +19,27 @@
 (function () {
     'use strict';
 
-    var deps = ['app/js/templates', 'app/js/tools/i18n', 'lib/backbone', 'lib/crypto', 'app/js/tools/alert.view'];
-    define(deps, function (templates, il8n, Backbone, CryptoJS, AlertView) {
+    var deps = ['app/js/templates', 'app/js/tools/i18n', 'backbone', 'app/js/tools/alert.view', 'app/js/tools/gravatar'];
+    define(deps, function (templates, il8n, Backbone, AlertView, Gravatar) {
         var View = Backbone.View.extend({
             initialize: function(options){
                 this.options = options || {};
             },
             el: 'body',
             events: {
+                'click .navbar-brand': function (evt) {
+                    evt.preventDefault();
+                    var me = this,
+                        router = window.BackboneApp.getRouter();
+                    router.navigate(evt.target.href, {
+                        trigger: true
+                    });
+                },
                 'click .ux-logout': function (evt) {
                     evt.preventDefault();
                     var me = this,
                         router = window.BackboneApp.getRouter();
-                    window.auth.logout()
+                    window.ux.auth.logout()
                         .then(
                             function () {
                                 router.navigate('login', {
@@ -44,6 +52,7 @@
             },
             showView: function (view) {
                 var me = this;
+                me.$el.attr('current-view', view.className);
                 var contentArea = me.$('.ux-content-area');
                 if (me.currentView) {
                     me.currentView.$el.detach();
@@ -52,18 +61,18 @@
                 me.currentView.render();
                 contentArea.append(me.currentView.el);
 
-                var access = window.auth.getAuth().then(
-                    function (value) {
-                        me.$('.ux-logout').attr("title", window.auth.get('username'));
-                        me.$('.ux-avatar').attr("src", "https://www.gravatar.com/avatar/" + CryptoJS.MD5((window.auth.get('email') || '').trim()).toString() + "?s=90&d=retro");
-                        me.$('.ux-logout').show("fast");
+                window.ux.auth.getAuth().then(
+                    function () {
+                        me.$('.ux-username').text(window.ux.auth.get('username'));
+                        me.$('.ux-avatar').attr("src", Gravatar.gravatar(window.ux.auth.get('email')));
+                        me.$('.ux-logout-block').show("fast");
                     }
                 ).catch(
                     function () {
-                        me.$('.ux-logout').hide(
+                        me.$('.ux-logout-block').hide(
                             "fast",
                             function(){
-                                me.$('.ux-logout').attr("title", "");
+                                me.$('.ux-username').text("");
                                 me.$('.ux-avatar').attr("src", "");
                             }
                         );
@@ -83,7 +92,7 @@
                     return this;
                 }
                 var html = templates.getValue('container', {
-                    userName: window.auth.get('username')
+                    userName: window.ux.auth.get('username')
                 });
                 this.$el.html(html);
 
