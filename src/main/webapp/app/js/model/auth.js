@@ -19,8 +19,8 @@
 (function () {
     'use strict';
 
-    var deps = ['lib/underscore', 'lib/backbone', 'jwt_decode'];
-    define(deps, function (_, Backbone, jwtDecode) {
+    var deps = ['lib/underscore', 'backbone', 'jwt_decode', 'app/js/model/login', 'lib/moment', 'app/js/tools/alert.view', 'lib/backbone-localstorage'];
+    define(deps, function (_, Backbone, jwtDecode, LoginModel, moment, AlertView) {
         var AuthModel = Backbone.Model.extend({
             urlRoot: window.ux.ROOT_URL + 'rest/token',
             defaults: {

@@ -19,7 +19,7 @@
 (function () {
     'use strict';
 
-    var deps = ['app/js/templates', 'lib/backbone'];
+    var deps = ['app/js/templates', 'backbone'];
     define(deps, function (templates) {
 
         var View = Backbone.View.extend({
@@ -27,7 +27,7 @@
                 this.options = options || {};
             },
             tagName: 'ul',
-            className: 'pagination',
+            className: 'pagination col-9',
             count: 0,
             page: 1,
             events: {
@@ -35,9 +35,9 @@
                     evt.preventDefault();
                     var me = this;
                     var myLink = $(evt.target);
-                    var href = myLink.attr('href');
+                    var page = myLink.attr('data-page');
                     me.trigger('go-to-page', {
-                        number: href
+                        number: page
                     });
                 }
             },
@@ -58,7 +58,7 @@
                     }));
                 }
                 me.$el.append(templates.getValue('main-table-paginator-button', {
-                    pageNumber: 'last',
+                    pageNumber: me.count.toString(),
                     pageText: '>>'
                 }));
                 return this;

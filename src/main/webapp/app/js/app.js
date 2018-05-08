@@ -25,22 +25,25 @@
         'app/js/view/main',
         'app/js/view/main-table-paginator',
         'app/js/view/movie',
+        'app/js/view/movie-page.view',
         'lib/underscore',
         'app/js/model/movies',
         'app/js/model/movie',
         'app/js/model/auth',
         'app/js/tools/i18n',
         'app/js/tools/alert.view',
-        'lib/less', 'lib/backbone', 'lib/jquery', 'lib/bootstrap'
+        'lib/less', 'backbone', 'lib/jquery', 'lib/bootstrap'
     ];
-    define(deps, function (containerView, loginView, mainView, paginator, MovieView, underscore, moviesList, MovieModel, AuthModel, i18n, AlertView) {
-        var auth = new AuthModel();
-        window.auth = auth;
+    define(deps, function (containerView, loginView, mainView, paginator, MovieView, MoviePageView, underscore, moviesList, MovieModel, AuthModel, i18n, AlertView) {
+        var auth = new AuthModel({id: 'ux.auth'});
+        auth.fetch();
+        window.ux.auth = auth;
         var max = 5;
         var appState = {
             page: null,
             fieldName: null,
-            fieldValue: null
+            fieldValue: null,
+            movieId: null
         };
         containerView.render();
         var router = null;
@@ -89,6 +92,9 @@
                             var count = Math.ceil(total / max);
                             paginator.setCount(count);
                             mainView.setPaginator(count);
+                            if(!!count && pageNumber > count) {
+                                router.showMain(count, fieldName, fieldValue);
+                            }
                         }
                     });
                 }
@@ -100,13 +106,76 @@
             var Router = Backbone.Router.extend({
                 routes: {
                     '': 'showMain',
-                    'main': 'showMain',
-                    'main/:page': 'showMain',
+                    'main(/:page)': 'showMain',
                     'main/:page/:field/:value': 'showMain',
-                    'login': 'showLogin'
+                    'login(/:tail)': 'showLogin',
+                    'logout(/:tail)': 'showLogout',
+                    'movie/:id': 'showMovie',
+                    '*path':  'defaultRoute'
                 },
                 showLogin: function () {
-                    containerView.showView(loginView);
+                    auth.getAuth().then( function () {
+                        router.navigate('main/1', {
+                            trigger: true
+                        });
+                    }).catch( function () {
+                        containerView.showView(loginView);
+                    })
+                },
+                showLogout: function () {
+                    window.ux.auth.logout()
+                        .then(
+                            function () {
+                                router.navigate('login', {
+                                    trigger: true
+                                });
+                                AlertView.show('Success', 'logged out', 'success');
+                            }
+                        )
+                },
+                defaultRoute: function () {
+                    var me = this;
+                    me.navigate('main/1', {
+                        trigger: true
+                    });
+                },
+                showMovie: function (id) {
+                    var me = this;
+                    //appState.movieId = id;
+                    if (!id) {
+                        return me.navigate('main/1', {
+                            trigger: true
+                        });
+                    }
+
+                    auth.getAuth().then(
+                        function () {
+                            $.ajax({
+                                url: window.ux.ROOT_URL + 'rest/movies/' + id,
+                                method: 'GET',
+                                dataType: 'json',
+                                success: function (data) {
+                                    var view = new MoviePageView({
+                                        model: new MovieModel(data)
+                                    });
+                                    view.render();
+                                    view.on('edit', function (data) {
+                                        showMovieWindow(data.model)
+                                            .then(function() {
+                                                view.render();
+                                            }).catch(_.noop);
+                                    });
+
+                                    containerView.showView(view);
+                                }
+                            });
+                        }
+                    ).catch( function () {
+                            router.navigate('login', {
+                                trigger: true
+                            });
+                        }
+                    )
                 },
                 showMain: function (page, fieldName, fieldValue) {
                     var me = this;
@@ -143,8 +212,10 @@
                     success: function (data) {
                         router.showMain();
                     },
-                    error: function () {
-                        AlertView.show('Failed', e['responseJSON']['error_description'], 'danger');
+                    error: function (e) {
+                        if (e.status === 403) {
+                            AlertView.show('Failed', 'Failed to load movies (forbidden)', 'danger');
+                        }
                     }
                 });
             });
@@ -154,38 +225,59 @@
                     success: function () {
                         router.showMain(appState.page, appState.fieldName, appState.fieldValue);
                     },
-                    error: function () {
-                        AlertView.show('Failed', e['responseJSON']['error_description'], 'danger');
+                    error: function (model, jqXHR) {
+                        if (jqXHR.status === 403){
+                            AlertView.show('Failed', 'Failed to delete movie (forbidden)', 'danger');
+                        }
                     }
                 });
             });
 
-            function showMovieWindow(model) {
-                var view = new MovieView({
-                    model: model
-                });
-                view.render();
-                view.on('save-model', function (data) {
-                    data.model.save({}, {
-                        success: function () {
-                            view.remove();
-                            loadPage(appState.page, appState.fieldName, appState.fieldValue);
-                        },
-                        error: function () {
-                            AlertView.show('Failed', e['responseJSON']['error_description'], 'danger');
-                        }
+            function showMovieWindow(model, nw) {
+                return new Promise(function(res, rej) {
+                    var view = new MovieView({
+                        model: model
                     });
+                    view.render();
+                    view.on('save-model', function (data) {
+                        data.model.save({}, {
+                            success: function () {
+                                view.$el.modal('hide');
+                                view.remove();
+                                res();
+                            },
+                            error: function (model, jqXHR) {
+                                if (jqXHR.status === 403) {
+                                    AlertView.show('Failed', 'Failed to ' + (nw ? 'create' : 'update') + ' movie (forbidden)', 'danger');
+                                }
+                                rej();
+                            }
+                        });
+                    });
+                    $('body').append(view.$el);
+                    view.$el.modal({});
+
                 });
-                $('body').append(view.$el);
-                view.$el.modal({});
             }
 
             mainView.on('add', function () {
-                showMovieWindow(new MovieModel({}));
+                showMovieWindow(new MovieModel({}), true)
+                    .then(function() {
+                        loadPage(appState.page, appState.fieldName, appState.fieldValue);
+                    }).catch(_.noop);
             });
 
             mainView.on('edit', function (data) {
-                showMovieWindow(data.model);
+                showMovieWindow(data.model)
+                    .then(function() {
+                        loadPage(appState.page, appState.fieldName, appState.fieldValue);
+                    }).catch(_.noop);
+            });
+
+            mainView.on('movie', function (data) {
+                router.navigate('movie/' + data.model.id, {
+                    trigger: true
+                });
             });
 
             mainView.on('filter', function (data) {
@@ -202,9 +294,6 @@
 
             paginator.on('go-to-page', function (data) {
                 var page = data.number;
-                if (page === 'last') {
-                    page = paginator.getCount();
-                }
                 router.showMain(page, appState.fieldName, appState.fieldValue);
             });
 

@@ -1,140 +1,142 @@
+<div class="back-drop login"></div>
+<div class="back-drop shadow"></div>
 <article class="text-center">
     <div class="row">
         <div class="col-md-12">
-            <!--form class="form-login" onsubmit="loginSubmit(event)"//-->
-            <form class="form-login" action="/oauth2/token" method="post">
-                <input type="hidden" name="ref" value="/moviefun/main">
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <label for="inputUsername" class="sr-only">Username</label>
-                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username"
-                       required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
-                       required>
+            <form class="form-login" action="/oauth2/token" method="post"> <input type="hidden" name="ref" value="/moviefun/main">
+                <img class="mb-2" src="app/img/movie-logo.png" alt="" width="167" height="72">
+                <h1 class="h3 mb-4 font-weight-light">Sign In</h1>
+                <div class="inner-addon left-addon">
+                    <label for="inputUsername" class="sr-only">Username</label>
+                    <i class="fa fa-user"></i>
+                    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                </div>
+                <div class="inner-addon left-addon">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                </div>
                 <input type="password" type="text" name="grant_type" value="password" hidden required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase mt-5" type="submit">Sign in</button>
+                <p class="mt-5 mb-5 text-muted">&copy; 2018</p>
             </form>
-        </div>
-        <script type="text/javascript">
-            let fetchToken = function (username, password, type = 'basic', grant_type = 'password') {
-                return new Promise((res, rej) => {
-                    let URI = {
-                                basic: '/tag/api/token',
-                                oauth2: '/oauth2/token'
-                            },
-                            grantTypes = ['password', ,],
-                            gtIndex = grantTypes.indexOf(grant_type),
-                            params = {
-                                password,
-                                username,
-                                type
-                            },
-                            path = URI[type];
+        </div>  <script type="text/javascript">
+        let fetchToken = function (username, password, type = 'basic', grant_type = 'password') {
+            return new Promise((res, rej) => {
+                let URI = {
+                    basic: '/tag/api/token',
+                    oauth2: '/oauth2/token'
+                },
+                grantTypes = ['password', ,],
+                gtIndex = grantTypes.indexOf(grant_type),
+                params = {
+                    password,
+                    username,
+                    type
+                },
+                path = URI[type];
 
-                    if (!path) return rej('invalid Token Type');
+            if (!path) return rej('invalid Token Type');
 
-                    if (type === 'oauth2') {
-                        switch (grant_type) {
-                            case 'password':
-                                params = {
-                                    password,
-                                    username,
-                                    grant_type
-                                };
-                                break;
-                            case 'client_credentials':
-                                params = {
-                                    client_id: username,
-                                    client_secret: password,
-                                    grant_type
-                                };
-                                break;
-                            case 'refresh_token':
-                                path = URI['basic'];
-                                params = {
-                                    refresh_token: username,
-                                    type,
-                                    grant_type
-                                };
-                                break;
-                            default:
-                                return rej('invalid Grant Type');
-                        }
-                    }
-                    const esc = encodeURIComponent, body = Object.keys(params)
-                            .map(k => esc(k) + '=' + esc(params[k]))
-                            .join('&');
-
-                    let host = location.protocol + '//' + location.host;
-
-                    fetch(`${host}${path}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body
-                    })
-                            .then(response => response.text())
-                            .then(text => {
-                                try {
-                                    //text = atob(text);
-                                    res(JSON.parse(text));
-                                } catch (err) {
-                                    rej(err, text);
-                                }
-                            }).catch(rej);
-                })
-            }, loginSubmit = function (event) {
-                event.preventDefault();
-                const form = event.target;
-
-                let redir = document.referrer;
-                let override = getParameterByName('ref');
-
-                if (override !== null || "" !== override || null == redir || undefined === redir) {
-                    redir = override;
+            if (type === 'oauth2') {
+                switch (grant_type) {
+                    case 'password':
+                        params = {
+                            password,
+                            username,
+                            grant_type
+                        };
+                        break;
+                    case 'client_credentials':
+                        params = {
+                            client_id: username,
+                            client_secret: password,
+                            grant_type
+                        };
+                        break;
+                    case 'refresh_token':
+                        path = URI['basic'];
+                        params = {
+                            refresh_token: username,
+                            type,
+                            grant_type
+                        };
+                        break;
+                    default:
+                        return rej('invalid Grant Type');
                 }
+            }
+            const esc = encodeURIComponent, body = Object.keys(params)
+                    .map(k => esc(k) + '=' + esc(params[k]))
+        .join('&');
 
-                fetchToken(form.username.value, form.password.value, 'oauth2').then(promise => {
-                    console.debug();
-                    //let json64 = btoa(JSON.stringify(promise.access_token));
-                    let rawString = JSON.stringify(promise);
+            let host = location.protocol + '//' + location.host;
 
-                    console.log("" + rawString);
+            fetch(`${host}${path}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body
+            })
+                    .then(response => response.text())
+        .then(text => {
+                try {
+                    //text = atob(text);
+                    res(JSON.parse(text));
+        } catch (err) {
+                rej(err, text);
+            }
+        }).catch(rej);
+        })
+        }, loginSubmit = function (event) {
+            event.preventDefault();
+            const form = event.target;
 
-                    let json64 = btoa(rawString);
-                    document.cookie = 'authorization=' + promise.access_token + "; path=/;";
+            let redir = document.referrer;
+            let override = getParameterByName('ref');
 
-                    document.location.href = getAppUrl();//TODO - Use redir;
-
-                });
-                //examples:
-                /*
-                fetchToken('admin', 'admin').then(console.log)
-                fetchToken('admin', 'admin', 'oauth2').then(console.log)
-                fetchToken('client', 'clientsecret', 'oauth2', 'client_credentials').then(console.log)
-                */
-            }, getParameterByName = function (name, url) {
-                if (!url) url = window.location.href;
-                name = name.replace(/[\[\]]/g, "\\$&");
-                let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                        results = regex.exec(url);
-                if (!results) return null;
-                if (!results[2]) return '';
-                return decodeURIComponent(results[2].replace(/\+/g, " "));
-            }, getAppUrl = function (){
-                const protocol = location.protocol;
-                const slashes = protocol.concat("//");
-                const host = slashes.concat(window.location.hostname);
-                const colon = host.concat(":");
-                const url = colon.concat(window.location.port);
-
-                return url + '/moviefun/main';
+            if (override !== null || "" !== override || null == redir || undefined === redir) {
+                redir = override;
             }
 
-        </script>
-    </div>
+            fetchToken(form.username.value, form.password.value, 'oauth2').then(promise => {
+                console.debug();
+            //let json64 = btoa(JSON.stringify(promise.access_token));
+            let rawString = JSON.stringify(promise);
 
-    <a href="main">Simple href link to App</a>
+            console.log("" + rawString);
+
+            let json64 = btoa(rawString);
+            document.cookie = 'authorization=' + promise.access_token + "; path=/;";
+
+            document.location.href = getAppUrl();//TODO - Use redir;
+
+        });
+            //examples:
+            /*
+            fetchToken('admin', 'admin').then(console.log)
+            fetchToken('admin', 'admin', 'oauth2').then(console.log)
+            fetchToken('client', 'clientsecret', 'oauth2', 'client_credentials').then(console.log)
+            */
+        }, getParameterByName = function (name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }, getAppUrl = function (){
+            const protocol = location.protocol;
+            const slashes = protocol.concat("//");
+            const host = slashes.concat(window.location.hostname);
+            const colon = host.concat(":");
+            const url = colon.concat(window.location.port);
+
+            return url + '/moviefun/main';
+        }
+
+    </script><a href="main">Simple href link to App</a>
+    </div>
 </article>
