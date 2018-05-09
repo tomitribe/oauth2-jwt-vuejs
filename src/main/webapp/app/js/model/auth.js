@@ -19,8 +19,8 @@
 (function () {
     'use strict';
 
-    var deps = ['lib/underscore', 'backbone', 'jwt_decode', 'app/js/model/login', 'lib/moment', 'app/js/tools/alert.view', 'app/js/tools/zip', 'lib/backbone-localstorage'];
-    define(deps, function (_, Backbone, jwtDecode, LoginModel, moment, AlertView, zip) {
+    var deps = ['lib/underscore', 'backbone', 'app/js/model/login', 'lib/moment', 'app/js/tools/alert.view', 'app/js/tools/zip', 'lib/backbone-localstorage'];
+    define(deps, function (_, Backbone, LoginModel, moment, AlertView, zip) {
         var AuthModel = Backbone.Model.extend({
             id: 'ux.auth',
             localStorage: new Store('ux.auth'),
