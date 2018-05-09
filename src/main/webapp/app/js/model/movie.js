@@ -41,7 +41,8 @@
             },
             defaults: {
                 rating: 5,
-                year: new Date().getFullYear()
+                year: new Date().getFullYear(),
+                comments: []
             }
         });
     });

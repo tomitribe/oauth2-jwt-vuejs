@@ -66,6 +66,7 @@
                         me.$('.ux-username').text(window.ux.auth.get('username'));
                         me.$('.ux-avatar').attr("src", Gravatar.gravatar(window.ux.auth.get('email')));
                         me.$('.ux-logout-block').show("fast");
+                        me.$('.ux-use-cookie').text(window.ux.auth.useCookie ? "Cookie" : "Header")
                     }
                 ).catch(
                     function () {
@@ -74,6 +75,7 @@
                             function(){
                                 me.$('.ux-username').text("");
                                 me.$('.ux-avatar').attr("src", "");
+                                me.$('.ux-use-cookie').text("")
                             }
                         );
                     }

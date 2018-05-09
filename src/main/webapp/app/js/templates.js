@@ -22,6 +22,7 @@
     var files = [
         'container',
         'login',
+        'login-header',
         'main',
         'main-table-row',
         'main-table-paginator-button',

@@ -22,7 +22,7 @@
     var deps = ['lib/underscore', 'backbone'];
     define(deps, function (_, Backbone) {
         var LoginModel = Backbone.Model.extend({
-            urlRoot: window.tokenHost || (window.ux.ROOT_URL + 'rest/token'),
+            urlRoot: window.tokenHost || (location.origin + '/oauth2/token'), // (window.ux.ROOT_URL + 'rest/token')
             initialize: function () {
             },
             getAccess: function(creds) {
@@ -61,6 +61,23 @@
                     })
                         .done(res)
                         .fail(rej);
+                });
+            },
+            getCookie: function() {
+                var matches = document.cookie.match(new RegExp(
+                    "(?:^|; )authorization=([^;]*)"
+                ));
+                return matches ? decodeURIComponent(matches[1]) : undefined;
+            },
+            clearCookie: function() {
+                document.cookie = 'authorization=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0;';
+            },
+            checkCookie: function(auth) {
+                var me = this;
+                return new Promise( function (res, rej) {
+                    if (!auth) auth = me.getCookie();
+                    if (!auth) return rej({'responseJSON':{'error_description': 'No authorization cookie was found'}});
+                    return res(JSON.parse(atob(auth)));
                 });
             }
         });
