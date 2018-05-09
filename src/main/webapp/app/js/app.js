@@ -22,6 +22,7 @@
     var deps = [
         'app/js/view/container',
         'app/js/view/login',
+        'app/js/view/login-header',
         'app/js/view/main',
         'app/js/view/main-table-paginator',
         'app/js/view/movie',
@@ -34,9 +35,8 @@
         'app/js/tools/alert.view',
         'lib/less', 'backbone', 'lib/jquery', 'lib/bootstrap'
     ];
-    define(deps, function (containerView, loginView, mainView, paginator, MovieView, MoviePageView, underscore, moviesList, MovieModel, AuthModel, i18n, AlertView) {
+    define(deps, function (containerView, loginView, loginHeaderView, mainView, paginator, MovieView, MoviePageView, underscore, moviesList, MovieModel, AuthModel, i18n, AlertView) {
         var auth = new AuthModel({id: 'ux.auth'});
-        auth.fetch();
         window.ux.auth = auth;
         var max = 5;
         var appState = {
@@ -108,6 +108,7 @@
                     '': 'showMain',
                     'main(/:page)': 'showMain',
                     'main/:page/:field/:value': 'showMain',
+                    'login-header(/:tail)': 'showLoginHeader',
                     'login(/:tail)': 'showLogin',
                     'logout(/:tail)': 'showLogout',
                     'movie/:id': 'showMovie',
@@ -120,6 +121,15 @@
                         });
                     }).catch( function () {
                         containerView.showView(loginView);
+                    })
+                },
+                showLoginHeader: function () {
+                    auth.getAuth().then( function () {
+                        router.navigate('main/1', {
+                            trigger: true
+                        });
+                    }).catch( function () {
+                        containerView.showView(loginHeaderView);
                     })
                 },
                 showLogout: function () {
@@ -183,7 +193,7 @@
                     appState.fieldName =  fieldName;
                     appState.fieldValue = fieldValue;
                     containerView.showView(mainView);
-                    if (!page || !underscore.isNumber(Number(page))) {
+                    if (!page || !underscore.isNumber(Number(page)) || Number(page) < 1 ) {
                         me.showMain(1);
                     } else {
                         loadPage(Number(page), fieldName, fieldValue);

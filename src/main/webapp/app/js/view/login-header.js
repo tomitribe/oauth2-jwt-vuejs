@@ -40,7 +40,6 @@
                         });
                     }
                 },
-                /*
                 'submit .form-login': function (evt) {
                     evt.preventDefault();
                     var me = this,
@@ -57,13 +56,13 @@
                             AlertView.show('Failed', e['responseJSON'] && e['responseJSON']['error_description'] || e, 'danger');
                         }
                     );
-                }*/
+                }
             },
             render: function () {
                 var me = this;
                 if (!this.options.isRendered) {
                     me.$el.empty();
-                    me.$el.append(templates.getValue('login', {}));
+                    me.$el.append(templates.getValue('login-header', {}));
                     me.options.isRendered = true;
                 }
                 return this;
