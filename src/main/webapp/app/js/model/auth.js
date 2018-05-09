@@ -19,8 +19,8 @@
 (function () {
     'use strict';
 
-    var deps = ['lib/underscore', 'backbone', 'jwt_decode', 'app/js/model/login', 'lib/moment', 'app/js/tools/alert.view', 'lib/backbone-localstorage'];
-    define(deps, function (_, Backbone, jwtDecode, LoginModel, moment, AlertView) {
+    var deps = ['lib/underscore', 'backbone', 'jwt_decode', 'app/js/model/login', 'lib/moment', 'app/js/tools/alert.view', 'app/js/tools/zip', 'lib/backbone-localstorage'];
+    define(deps, function (_, Backbone, jwtDecode, LoginModel, moment, AlertView, zip) {
         var AuthModel = Backbone.Model.extend({
             id: 'ux.auth',
             localStorage: new Store('ux.auth'),
@@ -186,8 +186,12 @@
             },
             parseResp: function (resp) {
                 var me = this;
-                var access_token = resp && resp['access_token'] && jwtDecode(resp['access_token']);
-                var refresh_token = resp && resp['refresh_token'] && jwtDecode(resp['refresh_token']);
+                var access_jwt = resp && resp['access_token'] && zip.jwtDecode(resp['access_token']);
+                var refresh_jwt =  resp && resp['refresh_token'] && zip.jwtDecode(resp['refresh_token']);
+
+                var access_token = access_jwt && access_jwt['payload'];
+                var refresh_token = refresh_jwt && refresh_jwt['payload'];
+
                 if (resp && resp['access_token'] && access_token) {
                     const access_exp = moment.unix(access_token.exp).valueOf(),
                         refresh_exp = moment.unix(refresh_token.exp).valueOf();

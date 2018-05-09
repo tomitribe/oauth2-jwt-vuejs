@@ -30,7 +30,8 @@ var APP_CONFIG = {
         'jwt_decode': 'webjars/jwt-decode/2.2.0/build/jwt-decode.min',
         'lib/crypto': 'webjars/crypto-js/3.1.9-1/crypto-js',
         'lib/moment': 'webjars/momentjs/2.22.1/moment',
-        'lib/backbone-localstorage': 'webjars/backbone-localstorage/1.1.16/backbone.localStorage-min'
+        'lib/backbone-localstorage': 'webjars/backbone-localstorage/1.1.16/backbone.localStorage-min',
+        'lib/pako': 'webjars/pako/1.0.6/dist/pako.min'
     },
     shim: {
         'lib/bootstrap': {
