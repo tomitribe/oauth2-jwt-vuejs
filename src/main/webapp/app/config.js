@@ -27,7 +27,6 @@ var APP_CONFIG = {
         'lib/underscore': 'webjars/underscorejs/1.8.3/underscore-min',
         'lib/json2': 'webjars/json2/20140204/json2.min',
         'backbone': 'webjars/backbonejs/1.3.3/backbone',
-        'jwt_decode': 'webjars/jwt-decode/2.2.0/build/jwt-decode.min',
         'lib/crypto': 'webjars/crypto-js/3.1.9-1/crypto-js',
         'lib/moment': 'webjars/momentjs/2.22.1/moment',
         'lib/backbone-localstorage': 'webjars/backbone-localstorage/1.1.16/backbone.localStorage-min',
