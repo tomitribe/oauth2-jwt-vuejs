@@ -19,6 +19,7 @@
 import router from './router.js';
 import store from './store/index.js';
 import { gravatar } from './common/gravatar.js';
+import { i18n } from './common/i18n.js';
 
 Vue.use(window['httpVueLoader']);
 
@@ -33,6 +34,11 @@ Vue.use(window['Toasted'], {
 
 Vue.filter('gravatar', function (value) {
     return gravatar((value||' ').toLowerCase().trim());
+});
+
+
+Vue.filter('i18n', function (value) {
+    return i18n((value||' ').toLowerCase().trim());
 });
 
 const movieModal = loadVueTemplate('partials/movie.modal');

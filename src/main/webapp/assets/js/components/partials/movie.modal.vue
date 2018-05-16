@@ -4,7 +4,7 @@
             <div class="modal-content modal-header-detached">
                 <form class="form-horizontal ux-movie-form" role="form" id="uxMovieForm">
                     <div class="modal-header d-flex justify-content-center">
-                        <h3 class="modal-title font-weight-light" id="movieModalLabel">{{"movie"}}</h3>
+                        <h3 class="modal-title font-weight-light" id="movieModalLabel">{{"movie" | i18n}}</h3>
                         <button type="button" class="ux-close close close-x font-weight-light"
                                 data-dismiss="modal" aria-hidden="true">&times;
                         </button>
@@ -12,44 +12,44 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label for="title" class="col-12 mb-0 text-muted control-label">{{"title"}}</label>
+                            <label for="title" class="col-12 mb-0 text-muted control-label">{{"title" | i18n}}</label>
 
                             <div class="col-12">
-                                <input class="form-control ux-title" id="title" placeholder="title"
+                                <input class="form-control ux-title" id="title" :placeholder="'title' | i18n"
                                        type="text" v-model="item.title" name="title" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="director" class="col-12 mb-0 text-muted control-label">{{"director"}}</label>
+                            <label for="director" class="col-12 mb-0 text-muted control-label">{{"director" | i18n}}</label>
 
                             <div class="col-12">
                                 <input class="form-control ux-director" id="director"
-                                       type="text" placeholder="director" v-model="item.director" name="director"
+                                       type="text" :placeholder="'director' | i18n" v-model="item.director" name="director"
                                        required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="genre" class="col-12 mb-0 text-muted control-label">{{"genre"}}</label>
+                            <label for="genre" class="col-12 mb-0 text-muted control-label">{{"genre" | i18n}}</label>
 
                             <div class="col-12">
-                                <input class="form-control ux-genre" id="genre" placeholder="genre"
+                                <input class="form-control ux-genre" id="genre" :placeholder="'genre' | i18n"
                                        type="text" v-model="item.genre" name="genre" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="rating" class="col-12 mb-0 text-muted control-label">{{"rating"}}</label>
+                            <label for="rating" class="col-12 mb-0 text-muted control-label">{{"rating" | i18n}}</label>
 
                             <div class="col-12">
                                 <input class="form-control ux-rating" id="rating"
-                                       type="number" min="0" max="10" placeholder="rating"
+                                       type="number" min="0" max="10" :placeholder="'rating' | i18n"
                                        v-model="item.rating" name="rating" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="year" class="col-12 mb-0 text-muted control-label">{{"year"}}</label>
+                            <label for="year" class="col-12 mb-0 text-muted control-label">{{"year" | i18n}}</label>
 
                             <div class="col-12">
-                                <input class="form-control ux-year" id="year" placeholder="year"
+                                <input class="form-control ux-year" id="year" :placeholder="'year' | i18n"
                                        type="number" min="1900" :max="currentYear" v-model="item.year" name="year"
                                        required>
                             </div>
@@ -57,9 +57,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default ux-close" data-dismiss="modal">
-                            {{"close"}}
+                            {{"close" | i18n}}
                         </button>
-                        <button type="submit" class="btn btn-primary ux-save">{{"save"}}</button>
+                        <button type="submit" class="btn btn-primary ux-save">{{"save" | i18n}}</button>
                     </div>
                 </form>
             </div>

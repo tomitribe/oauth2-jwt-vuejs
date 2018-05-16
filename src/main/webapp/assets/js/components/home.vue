@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="mx-auto text-center mb-3 mt-3">
-                    <h3 class="pt-4 pb-2">{{"movies"}}</h3>
+                    <h3 class="pt-4 pb-2">{{"movies" | i18n}}</h3>
                 </div>
             </div>
         </div>
@@ -23,26 +23,26 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-primary dropdown-toggle border-0 rounded-0 pr-3"
                                             type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                                        <span class="ux-selected-filter">{{"title"}}</span>
+                                        <span class="ux-selected-filter">{{"title" | i18n}}</span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" role="menu"
                                          aria-labelledby="dropdownMenuButton">
-                                        <a data-option="title" class="dropdown-item ux-filter">{{"title"}}</a>
-                                        <a data-option="director" class="dropdown-item ux-filter">{{"director"}}</a>
-                                        <a data-option="genre" class="dropdown-item ux-filter">{{"genre"}}</a>
-                                        <a data-option="rating" class="dropdown-item ux-filter">{{"rating"}}</a>
-                                        <a data-option="year" class="dropdown-item ux-filter">{{"year"}}</a>
+                                        <a data-option="title" class="dropdown-item ux-filter">{{"title" | i18n}}</a>
+                                        <a data-option="director" class="dropdown-item ux-filter">{{"director" | i18n}}</a>
+                                        <a data-option="genre" class="dropdown-item ux-filter">{{"genre" | i18n}}</a>
+                                        <a data-option="rating" class="dropdown-item ux-filter">{{"rating" | i18n}}</a>
+                                        <a data-option="year" class="dropdown-item ux-filter">{{"year" | i18n}}</a>
                                     </div>
                                 </div>
                             </div>
                             <table class="table">
                                 <thead class="thead-gray">
                                 <tr>
-                                    <th scope="col" class="font-weight-normal pl-4 pt-1 pb-1">{{"title"}}</th>
-                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"director"}}</th>
-                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"genre"}}</th>
-                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"rating"}}</th>
-                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"year"}}</th>
+                                    <th scope="col" class="font-weight-normal pl-4 pt-1 pb-1">{{"title" | i18n}}</th>
+                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"director" | i18n}}</th>
+                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"genre" | i18n}}</th>
+                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"rating" | i18n}}</th>
+                                    <th scope="col" class="font-weight-normal pt-1 pb-1">{{"year" | i18n}}</th>
                                     <th scope="col" class="font-weight-normal pr-4"></th>
                                 </tr>
                                 </thead>
@@ -62,8 +62,8 @@
                                      v-bind:current-page="currentPage"
                                      v-if="movies.length"></table-paginator>
                     <a class="load-data col-9" href="" v-if="!movies.length"
-                       v-on:click.prevent.self="loadSeed()">Click here to load sample data</a>
-                    <button type="button" @click="showMovieWindow()" class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie"}}</button>
+                       v-on:click.prevent.self="loadSeed()">{{"load.data" | i18n}}</a>
+                    <button type="button" @click="showMovieWindow()" class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie" | i18n}}</button>
                 </div>
             </div>
         </div>
