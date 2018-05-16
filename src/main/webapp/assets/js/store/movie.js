@@ -34,7 +34,7 @@ const movie = {
         // API Calls
         async getMovies ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 const response = await axios.get('/rest/movies', {params: data});
                 commit(SET_MOVIES, response.data);
                 const itemCount = await dispatch('getCount', data);
@@ -46,7 +46,7 @@ const movie = {
         },
         async getMovie ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 const response = await axios.get('/rest/movies/' + data);
                 return response.data;
             } catch (error) {
@@ -55,7 +55,7 @@ const movie = {
         },
         async createMovie ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 return await axios.post('/rest/movies/', {title: data.title, content: data.content});
             } catch (error) {
                 throw error;
@@ -63,7 +63,7 @@ const movie = {
         },
         async saveMovie ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 return await axios.put('rest/movies/' + data.id, {title: data.title, content: data.content});
             } catch (error) {
                 throw error;
@@ -71,7 +71,7 @@ const movie = {
         },
         async deleteMovie ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 return await axios.delete('/rest/movies/' + data.id);
             } catch (error) {
                 throw error;
@@ -79,7 +79,7 @@ const movie = {
         },
         async loadSeed ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 return await axios.post('/rest/load/', {});
             } catch (error) {
                 throw error;
@@ -87,7 +87,7 @@ const movie = {
         },
         async getCount ({ dispatch, commit, getters, rootGetters }, {field, searchTerm}) {
             try {
-                setAuthorizationHeader(rootGetters['user/accessToken']);
+                setAuthorizationHeader(rootGetters['auth/accessToken']);
                 return await axios.get('/rest/movies/count/', {field, searchTerm});
             } catch (error) {
                 throw error;
