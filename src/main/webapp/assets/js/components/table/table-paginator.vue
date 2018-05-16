@@ -14,7 +14,7 @@
         components: {
             'table-paginator-item': tablePaginatorItem,
         },
-        props: [ 'itemsCount', 'max', 'currentPage' ],
+        props: ['itemsCount', 'max', 'currentPage'],
         computed: {
             pagesCount() {
                 return Math.ceil(this.itemsCount / this.max);

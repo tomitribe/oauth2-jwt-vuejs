@@ -45,8 +45,7 @@ limitations under the License.
     <script src="https://unpkg.com/vue-router@2/dist/vue-router.js"></script>
     <script src="https://unpkg.com/vuex@3/dist/vuex.js"></script>
     <script src="https://unpkg.com/axios@0/dist/axios.min.js"></script>
-        <script src="https://unpkg.com/http-vue-loader@1"></script>
-    <script src="https://unpkg.com/vue-js-modal@1"></script>
+    <script src="https://unpkg.com/http-vue-loader@1"></script>
     <script src="https://unpkg.com/vue-toasted@1"></script>
     <script src="https://unpkg.com/vuelidate@0/dist/vuelidate.min.js"></script>
     <script src="https://unpkg.com/vuelidate@0/dist/validators.min.js"></script>

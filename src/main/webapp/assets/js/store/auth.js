@@ -91,7 +91,6 @@ const auth = {
                     method: 'post',
                     url: window.tokenHost || (location.origin + '/oauth2/token'),
                     headers: {
-                        'Authorization': null,
                         'Content-type': 'application/x-www-form-urlencoded'
                     },
                     data: $.param({
@@ -114,7 +113,6 @@ const auth = {
                     method: 'POST',
                     url: window.tokenHost || (location.origin + '/oauth2/token'),
                     headers: {
-                        'Authorization': null,
                         'Content-type': 'application/x-www-form-urlencoded'
                     },
                     data: $.param({

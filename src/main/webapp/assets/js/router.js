@@ -33,6 +33,7 @@ Vue.use(VueRouter);
 function loadVueTemplate(url, force) {
     return httpVueLoader(!force ? 'assets/js/components/' + url + '.vue' : url);
 }
+
 window.loadVueTemplate = loadVueTemplate;
 
 function fetchComponent(name, url) {
@@ -43,10 +44,10 @@ function fetchComponent(name, url) {
 }
 
 function parseRoute(item) {
-    if(!item.component) {
+    if (!item.component) {
         item.component = fetchComponent(item.name, item.componentUrl || item.name);
     }
-    if(!!item.children) {
+    if (!!item.children) {
         item.children.map(parseRoute);
     }
 }
@@ -72,11 +73,19 @@ const routes = [
     {
         name: 'login',
         path: '/login',
-        meta: {title: 'Login'}
+        noAuth: true,
+        meta: {title: 'Login'},
+        beforeEnter: function (to, from, next) {
+            if (router.app.$options.store.getters['auth/user']) {
+                router.push({name: 'home'});
+                next({name: 'home'});
+            }
+        },
     },
     {
         name: 'logout',
         path: '/logout',
+        noAuth: true,
         beforeEnter: function (to, from, next) {
             router.app.$options.store.dispatch('auth/userLogout');
             router.push({name: 'login'});
@@ -91,11 +100,11 @@ routes.map(parseRoute);
 const router = new VueRouter({
     mode: 'history',
     linkActiveClass: 'open active',
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition
         } else {
-            return { x: 0, y: 0 }
+            return {x: 0, y: 0}
         }
     },
     routes
@@ -106,11 +115,14 @@ router.beforeEach((to, from, next) => {
     let refreshToken = localStorage.getItem('refreshToken') ? localStorage.getItem('refreshToken') : null
 
     if (accessToken) {
-        router.app.$options.store.dispatch('auth/setUserAndTokens', {accessToken: accessToken, refreshToken: refreshToken})
+        router.app.$options.store.dispatch('auth/setUserAndTokens', {
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        })
     }
 
-    if (to.name !== 'login' && router.app.$options.store && !router.app.$options.store.getters['auth/user']) {
-        next({name: 'login'})
+    if (!to.noAuth && router.app.$options.store && !router.app.$options.store.getters['auth/user']) {
+        next({name: 'logout'})
     }
 
     next()

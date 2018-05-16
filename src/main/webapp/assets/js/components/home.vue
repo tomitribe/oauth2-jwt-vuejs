@@ -57,11 +57,13 @@
                     </div>
                 </div>
                 <div class="ux-additional mx-auto row mb-3 mt-3">
-                    <table-paginator v-bind:items-count="itemsCount" v-bind:max="max" v-bind:current-page="currentPage"
+                    <table-paginator v-bind:items-count="itemsCount"
+                                     v-bind:max="max"
+                                     v-bind:current-page="currentPage"
                                      v-if="movies.length"></table-paginator>
                     <a class="load-data col-9" href="" v-if="!movies.length"
                        v-on:click.prevent.self="loadSeed()">Click here to load sample data</a>
-                    <button type="button" class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie"}}</button>
+                    <button type="button" @click="showMovieWindow()" class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie"}}</button>
                 </div>
             </div>
         </div>
@@ -108,7 +110,7 @@
             deep: true
         },
         methods: {
-            getMoviesPage: function () {
+            getMoviesPage() {
                 const {page, field, value, max} = this,
                     data = {max};
                 let currentPage = !isNaN(page) && Number(page);
@@ -125,12 +127,15 @@
                 }
                 this.$store.dispatch('movie/getMovies', data);
             },
-            loadSeed: function () {
+            loadSeed() {
                 try {
                     this.$store.dispatch('movie/loadSeed');
                 } catch (error) {
                     this.$toasted.error((error && error.response && error.response.data && error.response.data.error_description) || 'Failed to load seed.')
                 }
+            },
+            showMovieWindow(model) {
+                $('#movieModal').modal();
             }
         }
     }

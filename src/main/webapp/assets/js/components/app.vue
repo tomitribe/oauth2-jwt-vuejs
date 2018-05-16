@@ -26,8 +26,7 @@
                 <router-view class="view"></router-view>
             </div>
         </div>
-
-        <v-dialog/>
+        <movie-modal></movie-modal>
     </div>
 </template>
 

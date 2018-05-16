@@ -29,11 +29,14 @@ Vue.use(window['Toasted'], {
     duration: 2300
 });
 
-Vue.use(window['vue-js-modal'].default, { dialog: true });
+//Vue.use(window['vue-js-modal'].default, { dynamic: true, dialog: true });
 
 Vue.filter('gravatar', function (value) {
     return gravatar((value||' ').toLowerCase().trim());
-})
+});
+
+const movieModal = loadVueTemplate('partials/movie.modal');
+Vue.component('movie-modal', movieModal);
 
 window.jQuery = window['$'];
 
