@@ -73,19 +73,11 @@ const routes = [
     {
         name: 'login',
         path: '/login',
-        noAuth: true,
-        meta: {title: 'Login'},
-        beforeEnter: function (to, from, next) {
-            if (router.app.$options.store.getters['auth/user']) {
-                router.push({name: 'home'});
-                next({name: 'home'});
-            }
-        },
+        meta: {title: 'Login'}
     },
     {
         name: 'logout',
         path: '/logout',
-        noAuth: true,
         beforeEnter: function (to, from, next) {
             router.app.$options.store.dispatch('auth/userLogout');
             router.push({name: 'login'});
@@ -94,6 +86,7 @@ const routes = [
         meta: {title: 'logout'}
     }
 ];
+const noAuthRoutes = ['login', 'logout'];
 
 routes.map(parseRoute);
 
@@ -121,7 +114,7 @@ router.beforeEach((to, from, next) => {
         })
     }
 
-    if (!to.noAuth && router.app.$options.store && !router.app.$options.store.getters['auth/user']) {
+    if ((noAuthRoutes.indexOf(to.name) < 0) && router.app.$options.store && !router.app.$options.store.getters['auth/user']) {
         next({name: 'logout'})
     }
 
