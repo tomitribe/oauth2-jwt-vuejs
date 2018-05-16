@@ -22,6 +22,7 @@ limitations under the License.
   <meta charset="utf-8">
   <title>Moviefun</title>
   <link href="<c:url value='/webjars/bootstrap/4.1.0/css/bootstrap.min.css'/>" rel="stylesheet">
+  <link href="<c:url value='/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome-all.min-jsf.css'/>" rel="stylesheet">
   <link href="<c:url value='/assets/less/app.less'/>" rel="stylesheet/less" type="text/css">
   <script type="text/javascript">
     window.ux = window.ux || {};

@@ -77,6 +77,14 @@ const movie = {
                 throw error;
             }
         },
+        async loadSeed ({ dispatch, commit, getters, rootGetters }, data) {
+            try {
+                setAuthorizationHeader(rootGetters['user/accessToken']);
+                return await axios.post('/rest/load/', {});
+            } catch (error) {
+                throw error;
+            }
+        },
         async getCount ({ dispatch, commit, getters, rootGetters }, {field, searchTerm}) {
             try {
                 setAuthorizationHeader(rootGetters['user/accessToken']);

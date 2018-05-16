@@ -49,8 +49,7 @@
                                 <tbody class="tbody-gray">
                                 <template>
                                     <table-row v-for="item in movies" v-bind:item="item"
-                                             v-bind:key="item.id"></table-row>
-
+                                               v-bind:key="item.id"></table-row>
                                 </template>
                                 </tbody>
                             </table>
@@ -58,15 +57,8 @@
                     </div>
                 </div>
                 <div class="ux-additional mx-auto row mb-3 mt-3">
-                    <ul class="pagination col-9" v-if="movies.length">
-                        <template>
-                            <table-paginator-item v-for="(n, i) in Math.ceil(itemsCount / max)"
-                                                  v-bind:page-text="i"
-                                                  v-bind:page-number="n"
-                                                  v-bind:active-page="page">{{n}}</table-paginator-item>
-
-                        </template>
-                    </ul>
+                    <table-paginator v-bind:items-count="itemsCount" v-bind:max="max" v-bind:current-page="currentPage"
+                                     v-if="movies.length"></table-paginator>
                     <a class="load-data col-9" href="" v-if="!movies.length"
                        v-on:click.prevent.self="loadSeed()">Click here to load sample data</a>
                     <button type="button" class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie"}}</button>
@@ -78,32 +70,16 @@
 
 <script>
     const tableRow = loadVueTemplate('table/table-row');
-    const tablePaginatorItem = loadVueTemplate('table/table-paginator-item');
+    const tablePaginator = loadVueTemplate('table/table-paginator');
     module.exports = {
         components: {
             'table-row': tableRow,
-            'table-paginator-item': tablePaginatorItem,
+            'table-paginator': tablePaginator,
         },
-        /*props: {
-            page: {
-                default: 1,
-                type: Number
-            },
-            field: {
-                default: 'title',
-                type: String
-            },
-            value: {
-                default: '',
-                type: String
-            },
-        },*/
         data: function () {
             return {
                 max: 5,
-                page: this.$route.params.page,
-                field: this.$route.params.field,
-                value: this.$route.params.value,
+                currentPage: 0
             }
         },
         computed: {
@@ -111,24 +87,45 @@
                 user: state => state.auth.user,
                 movies: state => state.movie.movies,
                 itemsCount: state => state.movie.itemsCount
-            })
+            }),
+            page: function () {
+                return this.$route.params.page;
+            },
+            field: function () {
+                return this.$route.params.field;
+            },
+            value: function () {
+                return this.$route.params.value;
+            }
         },
         mounted() {
             this.getMoviesPage();
         },
+        watch: {
+            '$route.params': function () {
+                this.getMoviesPage();
+            },
+            deep: true
+        },
         methods: {
-            getMoviesPage: function() {
-                const { page, field, value } = this.$route.params,
-                    data = { max: this.max };
-                if (page > 1) this.page = page;
-                data.first = (this.page - 1) * this.max;
+            getMoviesPage: function () {
+                const {page, field, value, max} = this,
+                    data = {max};
+                let currentPage = !isNaN(page) && Number(page);
+                if (page < 1 || !page) currentPage = 1;
+                data.first = (currentPage - 1) * max;
+                if (page !== currentPage) {
+                    this.$router.replace({page: currentPage});
+                }
+                this.$set(this, 'currentPage', currentPage);
+
                 if (field && value) {
                     data.field = field;
                     data.searchTerm = value;
                 }
                 this.$store.dispatch('movie/getMovies', data);
             },
-            loadSeed: function() {
+            loadSeed: function () {
                 try {
                     this.$store.dispatch('movie/loadSeed');
                 } catch (error) {

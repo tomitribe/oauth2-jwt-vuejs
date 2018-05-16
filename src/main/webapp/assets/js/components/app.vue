@@ -49,5 +49,4 @@
 </script>
 
 <style>
-    @import '../../../webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome-all.min-jsf.css';
 </style>
