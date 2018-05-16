@@ -16,25 +16,33 @@
  *  limitations under the License.
  */
 
-define([], function () {
-    'use strict';
+import router from './router.js';
+import store from './store/index.js';
+import { gravatar } from './common/gravatar.js';
 
-    var noOp = function () {
-        return ''; // no-op
-    };
+Vue.use(window['httpVueLoader']);
 
-    if (!window.console) {
-        window.console = {};
+Vue.use(window['vuelidate']['Vuelidate']);
+
+Vue.use(window['Toasted'], {
+    position: 'bottom-center',
+    duration: 2300
+});
+
+Vue.use(window['vue-js-modal'].default, { dialog: true });
+
+Vue.filter('gravatar', function (value) {
+    return gravatar((value||' ').toLowerCase().trim());
+})
+
+window.jQuery = window['$'];
+
+new Vue({
+    el: '#root',
+    template: '<app />',
+    store,
+    router,
+    components: {
+        app: 'url:assets/js/components/app.vue'
     }
-
-    function createIfNull(functionName) {
-        if (!window.console[functionName]) {
-            window.console[functionName] = noOp;
-        }
-    }
-
-    createIfNull('error');
-    createIfNull('warn');
-    createIfNull('log');
-    createIfNull('info');
 });

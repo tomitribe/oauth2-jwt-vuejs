@@ -14,22 +14,11 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
+ "use strict";
  */
 
-(function () {
-    'use strict';
-
-    var deps = ['app/js/model/movie', 'backbone'];
-    define(deps, function (Movie) {
-        var Cls = Backbone.Collection.extend({
-            model: Movie,
-            url: window.ux.ROOT_URL + 'rest/movies',
-            parse: function (response) {
-                return response;
-            }
-        });
-        return new Cls();
-    });
-}());
-
-
+export function gravatar(emailStr) {
+    const gr = (emailStr || '').trim();
+    if (!gr || !gr.length) return "//www.gravatar.com/avatar/?s=90";
+    return "//www.gravatar.com/avatar/" + md5(gr) + "?s=90&d=retro"
+}

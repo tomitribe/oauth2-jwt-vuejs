@@ -24,7 +24,7 @@
   <!-- The trick is to put all your static files under the same directory and map the "default" servlet to it -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>/app/*</url-pattern>
+    <url-pattern>/assets/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>default</servlet-name>

@@ -78,7 +78,7 @@
                     <synchronization>
                         <updateOnlyExtensions>
                             <updateOnlyExtension>.html</updateOnlyExtension>
-                            <updateOnlyExtension>.handlebars</updateOnlyExtension>
+                            <updateOnlyExtension>.vue</updateOnlyExtension>
                             <updateOnlyExtension>.js</updateOnlyExtension>
                             <updateOnlyExtension>.less</updateOnlyExtension>
                             <updateOnlyExtension>.jcss</updateOnlyExtension>

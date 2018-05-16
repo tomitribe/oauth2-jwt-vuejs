@@ -39,7 +39,7 @@ body {
       right: 0;
       bottom: 0;
       &.login {
-        background-image: url(img/login.jpg);
+        background-image: url(../img/login.jpg);
       }
       &.shadow {
         background-color: rgba(57, 53, 102, 0.9)
@@ -66,13 +66,13 @@ body {
 
   .navbar-brand.logo {
     padding-left: 41px;
-    background: url(img/movie-icon.png) 5px center no-repeat;
+    background: url(../img/movie-icon.png) 5px center no-repeat;
     background-size: 30px;
   }
   .logout-icon {
     width: 20px;
     height: 20px;
-    background: url(img/logout-icon.png) center center no-repeat;
+    background: url(../img/logout-icon.png) center center no-repeat;
     background-size: cover;
   }
 
@@ -293,3 +293,24 @@ body {
   box-shadow: none !important;
 }
 
+.form-group {
+  &::after {
+    display: block;
+    content: "";
+    position: absolute;
+    right: 12px;
+    width: 5px;
+    height: 5px;
+    top: 21px;
+    border-radius: 50%;
+  }
+  &.has-error::after{
+    background-color: #e26b5b;
+  }
+  &.has-warning::after{
+    background-color: #e6e60e;
+  }
+  &.has-success::after{
+    background-color: #a6d50e;
+  }
+}
