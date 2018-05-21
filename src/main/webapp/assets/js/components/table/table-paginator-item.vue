@@ -1,6 +1,6 @@
 <template>
     <li class="page-item" v-bind:class="{ active: page.isActive }">
-        <router-link  class="page-link" :to="{ name: 'home', params: { page: page.pageNumber }}" :data-page="page.pageNumber">
+        <router-link  class="page-link" :to="{ params: { page: page.pageNumber }}" :data-page="page.pageNumber" replace>
             {{page.pageText}}
         </router-link>
     </li>

@@ -1,7 +1,9 @@
 <template>
     <tr class="col s12 m6">
         <td class="align-middle pl-4 pt-4 pb-4">
-            <a :href="'movie/'+item.id" class="ux-goto-movie font-weight-bold">{{item.title}}</a>
+            <router-link :to="{ name: 'movie', params: { id: item.id }}" class="ux-goto-movie font-weight-bold">
+                {{item.title}}
+            </router-link>
         </td>
         <td class="align-middle pt-4 pb-4">{{item.director}}</td>
         <td class="align-middle pt-4 pb-4">{{item.genre}}</td>
@@ -14,7 +16,7 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <button @click="showMovieWindow(item)" class="ux-edit-row dropdown-item" type="button"><span
                             class="col-2 fa fa-edit p-0 text-info"></span><span class="col-10">Edit</span></button>
-                    <button @click="$modal.show('delete-movie')" class="ux-delete-row dropdown-item" type="button"><span
+                    <button @click="deleteMovie()" class="ux-delete-row dropdown-item" type="button"><span
                             class="col-2 fa fa-trash-alt p-0 text-danger"></span><span class="col-10">Delete</span>
                     </button>
                 </div>
@@ -25,10 +27,16 @@
 
 <script>
     module.exports = {
-        props: ['item'],
+        props: ['item', 'showMovieWindow'],
         methods: {
-            showMovieWindow(model) {
-                $('#movieModal').modal();
+            async deleteMovie() {
+                const vm = this;
+                try {
+                    await vm.$store.dispatch('movie/deleteMovie', vm.item);
+                } catch (error) {
+                    console.log(error);
+                    vm.$toasted.error((error && error.response && error.response.data && error.response.data.error_description) || 'Could not delete movie.')
+                }
             }
         }
     }

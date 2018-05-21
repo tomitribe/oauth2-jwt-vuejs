@@ -19,19 +19,20 @@
                             </span>
                                 </div>
                                 <input type="text" class="form-control border-0 form-control-sm ux-filter-field"
-                                       placeholder="Search for anything" autofocus>
+                                       v-model.trim="value" debounce="300" placeholder="Search for anything" autofocus>
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-primary dropdown-toggle border-0 rounded-0 pr-3"
                                             type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                                        <span class="ux-selected-filter">{{"title" | i18n}}</span>
+                                        <span class="ux-selected-filter">{{field | i18n}}</span>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" role="menu"
                                          aria-labelledby="dropdownMenuButton">
-                                        <a data-option="title" class="dropdown-item ux-filter">{{"title" | i18n}}</a>
-                                        <a data-option="director" class="dropdown-item ux-filter">{{"director" | i18n}}</a>
-                                        <a data-option="genre" class="dropdown-item ux-filter">{{"genre" | i18n}}</a>
-                                        <a data-option="rating" class="dropdown-item ux-filter">{{"rating" | i18n}}</a>
-                                        <a data-option="year" class="dropdown-item ux-filter">{{"year" | i18n}}</a>
+                                        <template v-for="item in fields">
+                                            <router-link class="dropdown-item ux-filter"
+                                                         :to="{ params: { field: item }}" :data-option="item" replace
+                                                         :data-option="item">{{item | i18n}}
+                                            </router-link>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -49,6 +50,7 @@
                                 <tbody class="tbody-gray">
                                 <template>
                                     <table-row v-for="item in movies" v-bind:item="item"
+                                               v-bind:show-movie-window="showMovieWindow"
                                                v-bind:key="item.id"></table-row>
                                 </template>
                                 </tbody>
@@ -59,11 +61,15 @@
                 <div class="ux-additional mx-auto row mb-3 mt-3">
                     <table-paginator v-bind:items-count="itemsCount"
                                      v-bind:max="max"
+                                     v-bind:pages-count="pagesCount"
                                      v-bind:current-page="currentPage"
                                      v-if="movies.length"></table-paginator>
                     <a class="load-data col-9" href="" v-if="!movies.length"
                        v-on:click.prevent.self="loadSeed()">{{"load.data" | i18n}}</a>
-                    <button type="button" @click="showMovieWindow()" class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie" | i18n}}</button>
+                    <button type="button" @click="showMovieWindow()"
+                            class="col-3 btn btn-primary ux-add-btn float-right">{{"add.movie" | i18n}}
+                    </button>
+                    <movie-modal v-model="item"></movie-modal>
                 </div>
             </div>
         </div>
@@ -81,7 +87,9 @@
         data: function () {
             return {
                 max: 5,
-                currentPage: 0
+                currentPage: 0,
+                item: undefined,
+                fields: ['title', 'director', 'genre', 'rating', 'year']
             }
         },
         computed: {
@@ -90,15 +98,28 @@
                 movies: state => state.movie.movies,
                 itemsCount: state => state.movie.itemsCount
             }),
+            pagesCount() {
+                return Math.ceil(this.itemsCount / this.max);
+            },
             page: function () {
                 return this.$route.params.page;
             },
-            field: function () {
-                return this.$route.params.field;
+            field: {
+                get() {
+                    return this.$route.params.field || 'title';
+                },
+                set(field) {
+                    this.$router.replace({params: {field: field}});
+                }
             },
-            value: function () {
-                return this.$route.params.value;
-            }
+            value: {
+                get() {
+                    return this.$route.params.value;
+                },
+                set(value) {
+                    this.$router.replace({params: {page: 1, value: value || undefined, field: this.field}});
+                }
+            },
         },
         mounted() {
             this.getMoviesPage();
@@ -110,31 +131,41 @@
             deep: true
         },
         methods: {
-            getMoviesPage() {
+            async getMoviesPage() {
                 const {page, field, value, max} = this,
                     data = {max};
                 let currentPage = !isNaN(page) && Number(page);
-                if (page < 1 || !page) currentPage = 1;
+                if (currentPage < 1 || !currentPage) currentPage = 1;
                 data.first = (currentPage - 1) * max;
-                if (page !== currentPage) {
-                    this.$router.replace({page: currentPage});
-                }
+
+                if (currentPage < 1 || !currentPage) currentPage = 1;
                 this.$set(this, 'currentPage', currentPage);
 
                 if (field && value) {
                     data.field = field;
                     data.searchTerm = value;
                 }
-                this.$store.dispatch('movie/getMovies', data);
+                await this.$store.dispatch('movie/getMovies', data);
+
+                if (this.pagesCount > 0 && currentPage > this.pagesCount) currentPage = this.pagesCount;
+                if (page !== currentPage) {
+                    this.$router.replace({params: {page: currentPage}});
+                }
             },
             loadSeed() {
                 try {
                     this.$store.dispatch('movie/loadSeed');
+                    this.getMoviesPage();
                 } catch (error) {
                     this.$toasted.error((error && error.response && error.response.data && error.response.data.error_description) || 'Failed to load seed.')
                 }
             },
-            showMovieWindow(model) {
+            async showMovieWindow(model) {
+                if (model) {
+                    this.item = await this.$store.dispatch('movie/getMovie', model.id);
+                } else {
+                    this.item = undefined;
+                }
                 $('#movieModal').modal();
             }
         }

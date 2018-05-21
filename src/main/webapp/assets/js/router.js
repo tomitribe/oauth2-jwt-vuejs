@@ -56,7 +56,7 @@ const routes = [
     {
         name: 'default',
         path: '*',
-        redirect: '/login',
+        redirect: '/home/1',
         meta: {title: 'Not Found'}
     },
     {
@@ -69,6 +69,11 @@ const routes = [
         name: 'home',
         path: '/home/:page?/:field?/:value?',
         meta: {title: 'Home'}
+    },
+    {
+        name: 'movie',
+        path: '/movie/:id',
+        meta: {title: 'Movie'}
     },
     {
         name: 'login',

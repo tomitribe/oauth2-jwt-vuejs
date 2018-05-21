@@ -294,6 +294,7 @@ body {
 }
 
 .form-group {
+  position: relative;
   &::after {
     display: block;
     content: "";
@@ -301,16 +302,23 @@ body {
     right: 12px;
     width: 5px;
     height: 5px;
-    top: 21px;
+    bottom: 20px;
     border-radius: 50%;
+    .ux-movie-window &{
+      right: 32px;
+      bottom: 17px;
+    }
   }
-  &.has-error::after{
-    background-color: #e26b5b;
+  &.has-error{
+    .form-control { border-color: #e26b5b; }
+    &::after { background-color: #e26b5b; }
   }
-  &.has-warning::after{
-    background-color: #e6e60e;
+  &.has-warning{
+    //.form-control { border-color: #e6e60e; }
+    &::after { background-color: #e6e60e; }
   }
-  &.has-success::after{
-    background-color: #a6d50e;
+  &.has-success{
+    //.form-control { border-color: #a6d50e; }
+    &::after{ background-color: #a6d50e; }
   }
 }

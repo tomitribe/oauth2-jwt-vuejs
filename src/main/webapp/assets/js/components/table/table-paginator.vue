@@ -1,9 +1,16 @@
 <template>
     <ul class="pagination col-9">
-        <table-paginator-item v-for="(page, index) in pages"
-                              v-bind:page="page"
-                              v-bind:key="index"
-        ></table-paginator-item>
+        <template v-for="(page, index) in pages">
+            <li class="page-item disabled"
+                v-if="index > 1 && index < pages.length-1 && (page.pageNumber - pages[index-1].pageNumber !== 1)">
+                <span class="page-link">
+                    ..
+                </span>
+            </li>
+            <table-paginator-item v-bind:page="page"
+                                  v-bind:key="index"
+            ></table-paginator-item>
+        </template>
     </ul>
 </template>
 
@@ -14,15 +21,15 @@
         components: {
             'table-paginator-item': tablePaginatorItem,
         },
-        props: ['itemsCount', 'max', 'currentPage'],
+        props: ['itemsCount', 'max', 'currentPage', 'pagesCount'],
         computed: {
-            pagesCount() {
-                return Math.ceil(this.itemsCount / this.max);
-            },
             pages() {
-                const pages = Array.from(Array(this.pagesCount).keys()).map(i => {
-                    i += 1;
-                    return {pageText: i, pageNumber: i, isActive: i === this.currentPage}
+                const pages = [];
+                Array.from(Array(this.pagesCount).keys()).map(ci => {
+                    ci += 1;
+                    if (ci < 3 || Math.abs(ci - this.currentPage) < 3 || Math.abs(ci - this.pagesCount) < 2) {
+                        pages.push({pageText: ci, pageNumber: ci, isActive: ci === this.currentPage});
+                    }
                 });
                 pages.unshift({pageText: '<<', pageNumber: 1, isActive: false});
                 pages.push({pageText: '>>', pageNumber: this.pagesCount, isActive: false});
