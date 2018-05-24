@@ -27,7 +27,7 @@ limitations under the License.
   <script type="text/javascript">
     window.ux = window.ux || {};
     window.ux.SESSION_ID = "<%=request.getSession().getId()%>";
-    window.ux.ROOT_URL = "<c:url value='/'/>".replace(';jsessionid=' + window.ux.SESSION_ID, '');
+    window.ux.ROOT_URL = "${pageContext.request.contextPath}";
     //window.tokenHost = "http://localhost:8080/oauth2/token";
   </script>
   <base href="<c:url value='/'/>">
