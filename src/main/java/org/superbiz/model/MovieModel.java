@@ -5,7 +5,7 @@ import org.tomitribe.api.Resource;
 
 @Resource
 class MovieModel {
-    @Model(id = true)
+    @Model(id = true, operation = Model.Operation.READ)
     private String id;
     private String director;
     private String title;

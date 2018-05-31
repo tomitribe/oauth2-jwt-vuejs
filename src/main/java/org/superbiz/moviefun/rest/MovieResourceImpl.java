@@ -36,7 +36,25 @@ public class MovieResourceImpl implements MovieResource {
 
     @Override
     public Response update(final String id, final UpdateMovie movie) {
-        return null;
+        final MovieEntity movieEntity = service.find(id);
+        movieEntity.setTitle(movie.getTitle());
+        movieEntity.setDirector(movie.getDirector());
+        movieEntity.setGenre(movie.getGenre());
+        movieEntity.setRating(movie.getRating());
+        movieEntity.setYear(movie.getYear());
+
+        service.editMovie(movieEntity);
+
+        final Movie readMovie = Movie.builder()
+                                     .id(movieEntity.getId())
+                                     .title(movieEntity.getTitle())
+                                     .director(movieEntity.getDirector())
+                                     .genre(movieEntity.getGenre())
+                                     .rating(movieEntity.getRating())
+                                     .year(movieEntity.getYear())
+                                     .build();
+
+        return Response.ok().entity(readMovie).build();
     }
 
     @Override
