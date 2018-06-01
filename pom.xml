@@ -134,11 +134,44 @@
 
     <repositories>
         <repository>
-            <id>apache-m2-snapshot</id>
-            <name>Apache Snapshot Repository</name>
-            <url>https://repository.apache.org/content/groups/snapshots</url>
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>tomitribe-all</id>
+            <name>Tomitribe Repository</name>
+            <url>https://repository.tomitribe.com/content/groups/tomitribe/</url>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>http://jcenter.bintray.com</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>tomitribe-all</id>
+            <name>Tomitribe Repository</name>
+            <url>https://repository.tomitribe.com/content/groups/tomitribe/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
 
     <dependencies>
         <dependency>
