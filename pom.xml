@@ -56,7 +56,7 @@
                 <configuration>
                     <modelPackage>org.superbiz.model</modelPackage>
                     <resourcePackage>org.superbiz.rest</resourcePackage>
-                    <generateClient>false</generateClient>
+                    <generateClient>true</generateClient>
                 </configuration>
                 <executions>
                     <execution>
