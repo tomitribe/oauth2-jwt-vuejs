@@ -3,7 +3,7 @@ package org.superbiz.moviefun.rest;
 import org.superbiz.model.CreateMovie;
 import org.superbiz.model.Movie;
 import org.superbiz.model.UpdateMovie;
-import org.superbiz.model.rest.MovieResource;
+import org.superbiz.rest.MovieResource;
 import org.superbiz.moviefun.MovieEntity;
 import org.superbiz.moviefun.MoviesBean;
 
