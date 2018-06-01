@@ -1,4 +1,3 @@
-import { jwtDecode } from '../common/zip.js';
 import { setAuthorizationHeader } from '../common/header.js';
 import { clearCookie } from '../common/cookie.js';
 
@@ -77,7 +76,7 @@ const auth = {
     actions: {
         async setUserAndTokens ({ dispatch, commit, getters, rootGetters }, data) {
             try {
-                let decoded = jwtDecode(data.accessToken);
+                let decoded = jwtJsDecode.JwtJsDecode.jwtDecode(data.accessToken);
                 commit(SET_USER, decoded.payload);
                 commit(STORE_ACCESS_TOKEN, data.accessToken);
                 commit(STORE_REFRESH_TOKEN, data.refreshToken);

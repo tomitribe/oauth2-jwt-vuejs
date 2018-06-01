@@ -38,7 +38,7 @@ limitations under the License.
     <script src="<c:url value='/webjars/less/2.7.2/less.min.js'/>"></script>
     <script src="<c:url value='/webjars/jquery/3.3.1/jquery.min.js'/>"></script>
     <script src="<c:url value='/webjars/bootstrap/4.1.0/js/bootstrap.bundle.min.js'/>"></script>
-    <script src="<c:url value='/webjars/pako/1.0.6/dist/pako.min.js'/>"></script>
+    <script src="https://unpkg.com/jwt-js-decode@1.0.0"></script>
     <script src="<c:url value='/assets/js/common/md5.min.js'/>"></script>
     <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
     <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
