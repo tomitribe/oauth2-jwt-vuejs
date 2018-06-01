@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement(name = "movie")
-public class Movie {
+public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 
     private String director;
     private String title;
@@ -35,10 +35,10 @@ public class Movie {
     private String genre;
     private int rating;
 
-    public Movie() {
+    public MovieEntity() {
     }
 
-    public Movie(String title, String director, String genre, int rating, int year) {
+    public MovieEntity(String title, String director, String genre, int rating, int year) {
         this.director = director;
         this.title = title;
         this.year = year;
@@ -46,17 +46,17 @@ public class Movie {
         this.rating = rating;
     }
 
-    public Movie(String director, String title, int year) {
+    public MovieEntity(String director, String title, int year) {
         this.director = director;
         this.title = title;
         this.year = year;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
