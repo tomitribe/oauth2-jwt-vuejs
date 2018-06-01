@@ -4,8 +4,8 @@ import org.superbiz.model.CreateMovie;
 import org.superbiz.model.Movie;
 import org.superbiz.model.Movies;
 import org.superbiz.model.UpdateMovie;
-import org.superbiz.model.rest.MoviesResource;
 import org.superbiz.moviefun.MoviesBean;
+import org.superbiz.rest.MoviesResource;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +20,7 @@ public class MoviesResourcesImpl implements MoviesResource {
     private MoviesBean moviesBean;
 
     @GET
-    public Response findAll() {
+    public Response readAll() {
         final List<Movie> movieList =
                 moviesBean.getMovies(null, null, null, null)
                           .stream()
@@ -56,4 +56,5 @@ public class MoviesResourcesImpl implements MoviesResource {
     public Response bulkDelete(final List<String> ids) {
         return null;
     }
+
 }
