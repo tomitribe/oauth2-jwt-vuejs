@@ -37,34 +37,34 @@ public class MoviesBean {
     @PersistenceContext(unitName = "movie-unit")
     private EntityManager entityManager;
 
-    public MovieEntity find(String id) {
-        return entityManager.find(MovieEntity.class, id);
+    public Movie find(String id) {
+        return entityManager.find(Movie.class, id);
     }
 
-    public void addMovie(MovieEntity movie) {
+    public void addMovie(Movie movie) {
         entityManager.persist(movie);
     }
 
-    public void editMovie(MovieEntity movie) {
+    public void editMovie(Movie movie) {
         entityManager.merge(movie);
     }
 
     public void deleteMovie(String id) {
-        MovieEntity movie = entityManager.find(MovieEntity.class, id);
+        Movie movie = entityManager.find(Movie.class, id);
         entityManager.remove(movie);
     }
 
-    public List<MovieEntity> getMovies(Integer firstResult, Integer maxResults, String field, String searchTerm) {
+    public List<Movie> getMovies(Integer firstResult, Integer maxResults, String field, String searchTerm) {
         CriteriaBuilder qb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<MovieEntity> cq = qb.createQuery(MovieEntity.class);
-        Root<MovieEntity> root = cq.from(MovieEntity.class);
-        EntityType<MovieEntity> type = entityManager.getMetamodel().entity(MovieEntity.class);
+        CriteriaQuery<Movie> cq = qb.createQuery(Movie.class);
+        Root<Movie> root = cq.from(Movie.class);
+        EntityType<Movie> type = entityManager.getMetamodel().entity(Movie.class);
         if (field != null && searchTerm != null && !"".equals(field.trim()) && !"".equals(searchTerm.trim())) {
             Path<String> path = root.get(type.getDeclaredSingularAttribute(field.trim(), String.class));
             Predicate condition = qb.like(path, "%" + searchTerm.trim() + "%");
             cq.where(condition);
         }
-        TypedQuery<MovieEntity> q = entityManager.createQuery(cq);
+        TypedQuery<Movie> q = entityManager.createQuery(cq);
         if (maxResults != null) {
             q.setMaxResults(maxResults);
         }
@@ -77,8 +77,8 @@ public class MoviesBean {
     public int count(String field, String searchTerm) {
         CriteriaBuilder qb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
-        Root<MovieEntity> root = cq.from(MovieEntity.class);
-        EntityType<MovieEntity> type = entityManager.getMetamodel().entity(MovieEntity.class);
+        Root<Movie> root = cq.from(Movie.class);
+        EntityType<Movie> type = entityManager.getMetamodel().entity(Movie.class);
         cq.select(qb.count(root));
         if (field != null && searchTerm != null && !"".equals(field.trim()) && !"".equals(searchTerm.trim())) {
             Path<String> path = root.get(type.getDeclaredSingularAttribute(field.trim(), String.class));
