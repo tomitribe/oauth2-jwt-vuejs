@@ -46,6 +46,8 @@ Vue.component('movie-modal', movieModal);
 
 window.jQuery = window['$'];
 
+window.store = store;
+
 new Vue({
     el: '#root',
     template: '<app />',

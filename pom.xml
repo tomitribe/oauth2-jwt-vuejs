@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.superbiz</groupId>
-    <artifactId>login-moviefun</artifactId>
+    <artifactId>oauth2-jwt-vuejs</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Login :: JWT</name>
@@ -71,9 +71,9 @@
                 <configuration>
                     <tomeeClassifier>plus</tomeeClassifier>
                     <tomeeVersion>${version.tomee}</tomeeVersion>
-                    <tomeeHttpPort>9999</tomeeHttpPort>
-                    <tomeeAjpPort>8999</tomeeAjpPort>
-                    <tomeeShutdownPort>9995</tomeeShutdownPort>
+                    <tomeeHttpPort>8020</tomeeHttpPort>
+                    <tomeeAjpPort>8029</tomeeAjpPort>
+                    <tomeeShutdownPort>8025</tomeeShutdownPort>
                     <reloadOnUpdate>true</reloadOnUpdate>
                     <forceReloadable>true</forceReloadable>
                     <args>-Xmx512m -XX:PermSize=256m</args>
