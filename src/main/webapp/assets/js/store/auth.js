@@ -8,9 +8,11 @@ axios.interceptors.response.use((response) => {
     return response
 }, async (error) => {
     let originalRequest = error.config;
-    if (error.response.status === 401 && error.response.data.message === 'TOKEN_EXPIRED' && !originalRequest._retry) {
+    if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
+            const rt = store.getters['auth/refreshToken'];
+            if (!rt) throw new Error('No valid refreshToken');
             const response = await store.dispatch('auth/refreshUserTokens');
             await store.dispatch('auth/setUserAndTokens', {accessToken: response.data.accessToken, refreshToken: response.data.refreshToken});
             originalRequest.headers['Authorization'] = 'Bearer ' + store.getters['auth/accessToken'];
