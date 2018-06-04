@@ -11,15 +11,16 @@ axios.interceptors.response.use((response) => {
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-            const rt = store.getters['auth/refreshToken'];
+            const rt = window.store.getters['auth/refreshToken'];
             if (!rt) throw new Error('No valid refreshToken');
-            const response = await store.dispatch('auth/refreshUserTokens');
-            await store.dispatch('auth/setUserAndTokens', {accessToken: response.data.accessToken, refreshToken: response.data.refreshToken});
+            const response = await window.store.dispatch('auth/refreshUserTokens');
+            await window.store.dispatch('auth/setUserAndTokens', {accessToken: response.data.accessToken, refreshToken: response.data.refreshToken});
             originalRequest.headers['Authorization'] = 'Bearer ' + store.getters['auth/accessToken'];
             return axios(originalRequest)
         } catch (error) {
             // All Vuex modules must logout here
-            await store.dispatch('auth/userLogout');
+            console.log(error);
+            await window.store.dispatch('auth/userLogout');
 
             router.replace({name: 'login'});
             Vue.toasted.error('To verify your session, please login.');
@@ -110,7 +111,7 @@ const auth = {
         },
         async refreshUserTokens ({ dispatch, commit, getters, rootGetters }) {
             try {
-                setAuthorizationHeader(rootGetters['auth/accessToken']);
+                setAuthorizationHeader();
                 return await axios({
                     method: 'POST',
                     url: window.tokenHost || (location.origin + '/oauth2/token'),
