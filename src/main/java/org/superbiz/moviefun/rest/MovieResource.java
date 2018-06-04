@@ -14,6 +14,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -56,13 +57,16 @@ public class MovieResource {
 
     @DELETE
     @Path("{id}")
-    public void delete(final String id) {
+    public void delete(@PathParam("id") final String id) {
         moviesBean.deleteMovie(id);
     }
 
     @GET
-    public Response findAll() {
-        final List<Movie> movies = moviesBean.getMovies(null, null, null, null);
+    public Response findAll(@QueryParam("first") final Integer first,
+                            @QueryParam("max") final Integer max,
+                            @QueryParam("field") final String field,
+                            @QueryParam("searchTerm") final String searchTerm) {
+        final List<Movie> movies = moviesBean.getMovies(first, max, field, searchTerm);
         return Response.ok().entity(movies).build();
     }
 
