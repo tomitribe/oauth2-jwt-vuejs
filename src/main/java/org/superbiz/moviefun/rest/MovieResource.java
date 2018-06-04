@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -48,7 +49,7 @@ public class MovieResource {
 
     @GET
     @Path("{id}")
-    public Response read(final String id) {
+    public Response read(@PathParam("id") final String id) {
         final Movie movie = moviesBean.find(id);
         return Response.ok().entity(movie).build();
     }
@@ -63,5 +64,12 @@ public class MovieResource {
     public Response findAll() {
         final List<Movie> movies = moviesBean.getMovies(null, null, null, null);
         return Response.ok().entity(movies).build();
+    }
+
+    @GET
+    @Path("count")
+    @Produces(MediaType.TEXT_PLAIN)
+    public int count() {
+        return moviesBean.count(null, null);
     }
 }
