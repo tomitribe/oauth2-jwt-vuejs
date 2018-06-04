@@ -64,4 +64,11 @@ public class MovieResource {
         final List<Movie> movies = moviesBean.getMovies(null, null, null, null);
         return Response.ok().entity(movies).build();
     }
+
+    @GET
+    @Path("count")
+    @Produces(MediaType.TEXT_PLAIN)
+    public int count() {
+        return moviesBean.count(null, null);
+    }
 }
