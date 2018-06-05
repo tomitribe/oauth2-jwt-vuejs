@@ -1,8 +1,8 @@
 <template>
-    <div class="ux-login">
+    <div class="ux-login mt-3">
         <div class="back-drop login"></div>
         <div class="back-drop shadow"></div>
-        <article class="text-center">
+        <article class="text-center mt-5">
             <div class="row">
                 <div class="col-md-12">
                     <form class="form-login" v-on:submit.prevent autocomplete="off">

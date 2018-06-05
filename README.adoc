@@ -1,6 +1,7 @@
-= mp-jwt-moviefun
+= oauth2-jwt-vuejs
 
-Microprofile JWT example based on the Movie Fun app.
+JWT example based on the Movie Fun app
+with Vue.js Framework as a base.
 Will use OAuth 2.0 authentication with the Tribestream API Gateway.
 
 Check *OAuth2.0_authentication_with_vue.js.pdf* for details.
@@ -8,12 +9,22 @@ Check *OAuth2.0_authentication_with_vue.js.pdf* for details.
 == Running
 
 ----
-mvn clean package DskipTests tomee:run
+mvn clean package -DskipTests tomee:run
+----
+
+== TAG prerequisite
+
+----
+Default profile should have a valid key,
+`GRANT TYPE` should contain password and refresh_token
+`CLIENT ID REQUIRED` set to false
 ----
 
 == Mod_rewrite rules
 
 ----
-RewriteRule "^/?moviefun/rest/(.*)$" "http://sagan:8010/moviefun/rest/$1" [QSA,P,NE,auth]
-RewriteRule "^/?moviefun/(.*)$" "http://sagan:8010/moviefun/$1" [QSA,P,NE]
+RewriteRule "^/?moviefun/rest/(.*)$" "http://localhost:8020/moviefun/rest/$1" [QSA,P,NE,auth]
+RewriteRule "^/?moviefun/(.*)$" "http://localhost:8020/moviefun/$1" [QSA,P,NE]
 ----
+
+auth flag will require profile use default Oauth2 profile
