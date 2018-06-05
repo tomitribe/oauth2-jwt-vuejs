@@ -48,6 +48,8 @@ Vue.component('movie-modal', movieModal);
 window.jQuery = window['$'];
 setAxiosDefaults(store, router);
 
+window.store = store;
+
 new Vue({
     el: '#root',
     template: '<app />',
