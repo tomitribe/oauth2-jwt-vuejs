@@ -119,7 +119,7 @@
                     } else {
                         resItem = await vm.$store.dispatch('movie/createMovie', vm.value);
                         Object.keys(defItem).map(function(prop) {
-                            vm.item[prop] = defItem[prop];
+                            vm.value[prop] = defItem[prop];
                         });
                     }
                     vm.$toasted.success(`Movie ${resItem.title} ${save ? 'saved' : 'created'}.`)
