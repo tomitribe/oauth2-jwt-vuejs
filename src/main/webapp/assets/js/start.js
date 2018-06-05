@@ -20,6 +20,7 @@ import router from './router.js';
 import store from './store/index.js';
 import { gravatar } from './common/gravatar.js';
 import { i18n } from './common/i18n.js';
+import { setAxiosDefaults } from "./common/header.js";
 
 Vue.use(window['httpVueLoader']);
 
@@ -45,6 +46,7 @@ const movieModal = loadVueTemplate('partials/movie.modal');
 Vue.component('movie-modal', movieModal);
 
 window.jQuery = window['$'];
+setAxiosDefaults(store, router);
 
 window.store = store;
 

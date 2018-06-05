@@ -2,34 +2,6 @@ import { jwtDecode } from '../common/zip.js';
 import { setAuthorizationHeader } from '../common/header.js';
 import { clearCookie } from '../common/cookie.js';
 
-axios.defaults.baseURL = window.ux.ROOT_URL;
-
-axios.interceptors.response.use((response) => {
-    return response
-}, async (error) => {
-    let originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        try {
-            const rt = window.store.getters['auth/refreshToken'];
-            if (!rt) throw new Error('No valid refreshToken');
-            const response = await window.store.dispatch('auth/refreshUserTokens');
-            await window.store.dispatch('auth/setUserAndTokens', {accessToken: response.data.accessToken, refreshToken: response.data.refreshToken});
-            originalRequest.headers['Authorization'] = 'Bearer ' + store.getters['auth/accessToken'];
-            return axios(originalRequest)
-        } catch (error) {
-            // All Vuex modules must logout here
-            console.log(error);
-            await window.store.dispatch('auth/userLogout');
-
-            router.replace({name: 'login'});
-            Vue.toasted.error('To verify your session, please login.');
-            return Promise.reject(error)
-        }
-    }
-    return Promise.reject(error)
-});
-
 const SET_USER = 'SET_USER';
 const STORE_ACCESS_TOKEN = 'STORE_ACCESS_TOKEN';
 const STORE_REFRESH_TOKEN = 'STORE_REFRESH_TOKEN';
