@@ -1,7 +1,10 @@
 = oauth2-jwt-vuejs
 
 JWT example based on the Movie Fun app
-with Vue.js Framework as a base
+with Vue.js Framework as a base.
+Will use OAuth 2.0 authentication with the Tribestream API Gateway.
+
+Check *OAuth2.0_authentication_with_vue.js.pdf* for details.
 
 == Running
 
