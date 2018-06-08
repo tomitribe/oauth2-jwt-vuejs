@@ -156,6 +156,11 @@
             }
         },
         mounted() {
+        },
+        destroyed() {
+            $('#movieModal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
         }
     }
 </script>
