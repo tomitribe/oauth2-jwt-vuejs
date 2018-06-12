@@ -7,6 +7,7 @@ Will use OAuth 2.0 authentication with the Tribestream API Gateway.
 
 == Prerequisites
 
+*Mac OS*
 To work, this application requires a Secure Token Service to deliver JWT tokens.
 For this example, we use Tribestream API Gateway product.
 
