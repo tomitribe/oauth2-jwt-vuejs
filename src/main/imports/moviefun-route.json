@@ -1,0 +1,30 @@
+//api/route
+{
+  "profileRequiresAll": true,
+  "index": 0,
+  "modRewrite": "# this is to secure the REST API and needs to be first\nRewriteRule \"^/?moviefun/rest/(.*)$\" \"http://host.docker.internal:8020/moviefun/rest/$1\" [QSA,P,NE,auth]\nthis one is more permissive. We could filter only static resources or exclude the /rest but as it comes on second, that's fine\nRewriteRule \"^/?moviefun/(.*)$\" \"http://host.docker.internal:8020/moviefun/$1\" [QSA,P,NE]",
+  "roleRequiresAll": true,
+  "name": "Movie fun API",
+  "profiles": [
+    {
+      "id": "movie-fun-oauth2",
+      "name": "Movie fun OAuth2",
+      "description": "This OAuth2 profile is used to issue JWT tokens for the movie fun application."
+    }
+  ],
+  "description": "This route is used to proxy the Movie fun API through the Gateway. Additionally, it will enforce the JWT validation using the specified OAuth2 profile.",
+  "tags": [
+    {
+      "name": "movie"
+    },
+    {
+      "name": "fun"
+    },
+    {
+      "name": "jwt"
+    },
+    {
+      "name": "api"
+    }
+  ]
+}

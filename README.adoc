@@ -4,27 +4,56 @@ JWT example based on the Movie Fun app
 with Vue.js Framework as a base.
 Will use OAuth 2.0 authentication with the Tribestream API Gateway.
 
-Check *OAuth2.0_authentication_with_vue.js.pdf* for details.
+
+== Prerequisites
+
+To work, this application requires a Secure Token Service to deliver JWT tokens.
+For this example, we use Tribestream API Gateway product.
+
+For this application, we'll start the Tribestream API Gateway using Docker.
+
+```
+docker run -it -p 8080:8080 -e LICENSE=accept --name tag  tomitribedev/tribestream-api-gateway
+```
+
+IMPORTANT: this requires an explicit License agreement through the flag `-e LICENSE=accept`
+ If you don't add this license environment flag, you will get the license displayed on the console and it won't start.
+
+NOTE: if you already ran this command, the `tag` container will already exist and the command will fail.
+ To remove the container before starting a new container, run `docker rm tag`
 
 == Running
+
+Before starting the application, make sure the Tribestream API Gateway is up and running and you can successfully access the console.
+Go to `http://localhost:8080/tag`.
+You should be able to see the login screen and connect using `admin` as the username and the password.
+
+Then, you need to configure it properly. For convenience reasons, we deliver a script with some JSON files you can post to the REST API.
+The script is located into `src/main/scripts` and the JSON files are in `scr/main/imports`.
+
+Run the following commands to configure the Gateway.
+
+```
+source src/main/scripts/import.sh
+
+MOVIE_API_URL=host.docker.internal import http://localhost:8080/tag src/main/imports/default-keysize-2048.json
+MOVIE_API_URL=host.docker.internal import http://localhost:8080/tag src/main/imports/moviefun-oauth2.json
+MOVIE_API_URL=host.docker.internal import http://localhost:8080/tag src/main/imports/default-oauth2-profile.json
+MOVIE_API_URL=host.docker.internal import http://localhost:8080/tag src/main/imports/moviefun-route.json
+
+```
+
+NOTE: `host.docker.internal` is not portable across all docker platforms. You may need to change it if you are running on linux for instance.
+ Use instead `localhost` instead. Be careful, under Mac, you can reach the host from withing a container.
+
+Now, you are ready to start the movie fun application using the TomEE Maven plugin.
 
 ----
 mvn clean package -DskipTests tomee:run
 ----
 
-== TAG prerequisite
+== Test
 
-----
-Default profile should have a valid key,
-`GRANT TYPE` should contain password and refresh_token
-`CLIENT ID REQUIRED` set to false
-----
+Go to `http://localhost:8080/moviefun/`
 
-== Mod_rewrite rules
-
-----
-RewriteRule "^/?moviefun/rest/(.*)$" "http://localhost:8020/moviefun/rest/$1" [QSA,P,NE,auth]
-RewriteRule "^/?moviefun/(.*)$" "http://localhost:8020/moviefun/$1" [QSA,P,NE]
-----
-
-auth flag will require profile use default Oauth2 profile
+NOTE: Don't use directly `http://localhost:8020/moviefun/` because it does not go through the API Gateway.

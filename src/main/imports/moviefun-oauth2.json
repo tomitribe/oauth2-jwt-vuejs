@@ -1,0 +1,35 @@
+//api/profile/oauth2
+{
+  "prefix": "Bearer",
+  "header": "Authorization",
+  "name": "Movie fun OAuth2",
+  "description": "This OAuth2 profile is used to issue JWT tokens for the movie fun application.",
+  "requiresClient": false,
+  "accessTokenExpireTTL": "1 minute",
+  "tags": [
+    {
+      "name": "movie"
+    },
+    {
+      "name": "fun"
+    },
+    {
+      "name": "oauth2"
+    },
+    {
+      "name": "jwt"
+    }
+  ],
+  "externalSigning": {
+    "signingAlgorithm": "RS256",
+    "publicPrivateKeys": [
+      {
+        "type": "RSA",
+        "algorithm": "RSA-SHA256",
+        "id": "3f30da3766d869b9",
+        "privateValue": "-----BEGIN RSA PRIVATE KEY-----\nMIICWwIBAAKBgQCbqNUdX3Yknhv3rtN08CS8nIChxSyGu57pazG3VS+yqlDn2y2D\nohx002cQpfheM180jt56Uwioen8q16m5qBMh63G5zB0MuVqq+p+62h2DQe+W/OUG\n+K82Jvk60KnOH4mMKaKr5EVmxQgGHQjlaozLyhux5c8pkL2iSvoIsNBtBwIDAQAB\nAoGAXpNfISCePLNgFMZBLly2RW7lbOTLH/WhIPuDUnvMpkZ7L9RovADkP0su5Nui\no0GdR+bCYBpROWRsHZC5S9dF/7IaBGyhOvHvHmO6/iOUQpy/+OW9yQjuA2zhL8BZ\nelJUjmvezMIms26QOwcl1SCd2F0yhzygpUys4ahYnFPkbMECQQDlCIQGYTj+lncc\ncL0yt3tzf2nTmK916yuXQEkUT1DnDGXwNA454rNKU9146eY7QWJxfSMtl0kUm7n5\nmlDuPpRhAkEArfyySxaQRkOyIuA94h6LUDs6isc0Bigld8UnzrG2+XPQ3NAsXbJG\n0c0Cg593s5ykqSNUC/U7wA387ztqMjz6ZwJAL5dPZ8v3/d7iLUS367v4qQ1GvjMx\n8nzFeA5hoRjCJOCMphcLBbg3rTA0CxX/QzzY6eAo2SZghym8wULxoi/awQJAM7kq\n2+3CSFE5tOqLGxzPd7OT7MvZqHbo5JlFA0qLxc7raamtdtFYAmj69VxD/q5zuSCa\njM+Dys2dwxUbtgGwwwJAFDWTgZRE3422Mth9C2P0WZh9TRwlKJKFeYRHwLxYMLlK\n4zo5s1QQDVToEQ9vVyjld+2+7BXRn2iO83UJjiydvw==\n-----END RSA PRIVATE KEY-----\n",
+        "active": true
+      }
+    ]
+  }
+}
