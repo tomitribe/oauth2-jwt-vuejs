@@ -1,4 +1,8 @@
-=== OAuth 2.0 JWT with VueJS
+== OAuth 2.0 JWT with VueJS
+
+This is some text
+
+=== Goals
 
 JWT example based on the Movie Fun app
 with Vue.js Framework as a base.
