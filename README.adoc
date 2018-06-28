@@ -9,7 +9,7 @@ with Vue.js Framework as a base.
 Will use OAuth 2.0 authentication with the Tribestream API Gateway.
 
 
-==== Prerequisites
+====== Prerequisites
 
 *Mac OS*
 To work, this application requires a Secure Token Service to deliver JWT tokens.
