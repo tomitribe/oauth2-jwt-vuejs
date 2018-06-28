@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+documentation:
+
+  - doc_root: 'README.adoc'
+    name: 'Examples'
+    display_name: 'OAuth 2.0 JWT with VueJs'
+    public_path: 'en/api-gateway/oauth2-jwt-vuejs'
+    single_page: 'false'
