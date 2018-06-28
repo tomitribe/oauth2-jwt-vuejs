@@ -1,11 +1,11 @@
-== OAuth 2.0 JWT with VueJS
+=== OAuth 2.0 JWT with VueJS
 
 JWT example based on the Movie Fun app
 with Vue.js Framework as a base.
 Will use OAuth 2.0 authentication with the Tribestream API Gateway.
 
 
-=== Prerequisites
+==== Prerequisites
 
 *Mac OS*
 To work, this application requires a Secure Token Service to deliver JWT tokens.
@@ -23,7 +23,7 @@ IMPORTANT: this requires an explicit License agreement through the flag `-e LICE
 NOTE: if you already ran this command, the `tag` container will already exist and the command will fail.
  To remove the container before starting a new container, run `docker rm tag`
 
-=== Running
+==== Running
 
 Before starting the application, make sure the Tribestream API Gateway is up and running and you can successfully access the console.
 Go to `http://localhost:8080/tag`.
@@ -53,7 +53,7 @@ Now, you are ready to start the movie fun application using the TomEE Maven plug
 mvn clean package -DskipTests tomee:run
 ----
 
-== Test
+==== Test
 
 Go to `http://localhost:8080/moviefun/`
 
